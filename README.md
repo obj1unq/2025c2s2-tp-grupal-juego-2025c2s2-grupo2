@@ -2,9 +2,10 @@
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- Fernandez Fattori Veronica 
+- Familia Aquino Erick
+- Loray Agustina
+- Pastorive Octavio
 
 ## Capturas
 
