@@ -2,7 +2,7 @@ import wollok.game.*
 
 object molly {
     var property image = "molly.png"
-    var property position = game.center() 
+    var property position = game.at(0, 1)
     var property vidas = 3
     var property puntos = 0
     var property pasoPrevio = position 

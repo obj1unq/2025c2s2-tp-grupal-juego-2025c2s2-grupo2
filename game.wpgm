@@ -1,6 +1,8 @@
 import wollok.game.*
 import molly.*
 import extras.*
+import comidas.*
+
 
 program Game {
 	game.title("") 	//Valor por defecto "Wollok Game"
@@ -12,7 +14,9 @@ program Game {
 	game.boardGround("fondo.png")
     game.addVisual(piso)
     game.addVisual(molly)
+    game.addVisual(manzana)
     game.onTick(2000, "gravedad", {molly.descender()})
+    game.onTick(1000, "manzana cae", {manzana.descender()})
     
     //game.onCollideDo(comida, {molly.volver()})
 
