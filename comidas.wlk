@@ -10,7 +10,7 @@ class Comida {
 
     method descender() {  // Usar OnTick, va a caer gradualmente
         const objetosDebajo = game.getObjectsIn(position.down(1))
-        if(position.y() > 0 || objetosDebajo.isEmpty()) {
+        if(position.y() > 4 && objetosDebajo.isEmpty()) {
             position = position.down(velocidad)
         }
     }
@@ -23,5 +23,15 @@ class Comida {
     method puntosQueOtorga(){
         return 20
     }
-   
 }
+
+const variasComidas = [manzana, pasto, flor]
+const manzana   = new Comida(image = "manzana.png"
+                ,position = game.at(0.randomUpTo(144),  140),
+                velocidad = 5)
+const pasto     = new Comida(image = "pasto.png"
+                , position = game.at(0.randomUpTo(144), 140),
+                velocidad = 10 )
+const flor      = new Comida(image = "flor.png"
+                , position = game.at(0.randomUpTo(144), 140) ,
+                velocidad = 4)

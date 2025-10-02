@@ -3,18 +3,6 @@ import molly.*
 import extras.*
 import comidas.*
 
-const variasComidas = []
-const manzana   = new Comida(image = "manzana.png"
-                ,position = game.at(0.randomUpTo(144),  140),
-                velocidad = 5)
-const pasto     = new Comida(image = "pasto.png"
-                , position = game.at(0.randomUpTo(144), 140),
-                velocidad = 10 )
-const flor      = new Comida(image = "flor.png"
-                , position = game.at(0.randomUpTo(144), 140) ,
-                velocidad = 4)
-
-
 program Game {
 	game.title("patoJuego") 	//Valor por defecto "Wollok Game"
 	game.width(300) 			//valor por defecto 5
@@ -27,10 +15,7 @@ program Game {
     game.addVisual(molly)
     game.onTick(2000, "aparece comida", {variasComidas.forEach({comida => game.addVisual(comida)})})
     game.onTick(2000, "gravedad molly", {molly.descender()})
-    game.onTick(2000, "gravedad", {molly.descender()
-                                    manzana.descender()
-                                    pasto.descender()
-                                    flor.descender()})
+    game.onTick(100, "gravedad", {variasComidas.forEach({comida => comida.descender()})})
     game.onTick(50, "estaLevantandoUnaCaja",{
         if(variasComidas.any({comida => comida.estaSiendoLevantada()})){
             variasComidas.filter({comida => comida.estaSiendoLevantada()}).first().agarrar()
@@ -42,6 +27,5 @@ program Game {
     keyboard.right().onPressDo({molly.moverseDerecha()})
     keyboard.z().onPressDo({molly.sostenerCaja()})
     
-
     game.start()
 }

@@ -3,12 +3,13 @@ import extras.*
 
 
 object molly {
-    var property image = mirandoA.mollyMirando()
+    var property mirandoA = "invertida"
     var property position = game.at(0, 5)
     var property vidas = 3
     var property puntos = 0
-    var property mirandoA = derecha
     
+    method image() = "molly-" + mirandoA + ".png"
+
     method sostenerCaja(){
         if(derecha.estaMirando()){
             game.getObjectsIn(game.at(self.position().x() + 1, self.position().y())).first().agarrar()
@@ -16,16 +17,16 @@ object molly {
     }
 
     method moverseDerecha() {
-        mirandoA = derecha
+        mirandoA = "invertida"
         self.validarMoverseDerecha()
-        celdas.verificarMovimientoMolly(game.at(self.position().x() + 1, self.position().y()))
+        celdas.verificarMovimientoMolly(game.at(self.position().x() + 5, self.position().y()))
 		position = game.at(self.position().x() + 1, self.position().y())
 	}
 
 	method moverseIzquierda() {
-        mirandoA = izquierda
+        mirandoA = "normal"
 		self.validarMoverseIzquierda()
-        celdas.verificarMovimientoMolly(game.at(self.position().x() - 1, self.position().y()))
+        celdas.verificarMovimientoMolly(game.at(self.position().x() - 5, self.position().y()))
         position = game.at(self.position().x() - 1, self.position().y())
 	}
 

@@ -10,14 +10,14 @@ object piso {
 object izquierda {
     method estaMirando() = molly.mirandoA() == self 
     method mollyMirando() {
-        return "molly.png"
+        return "normal"
     }
 }
 
 object derecha {
     method estaMirando() = molly.mirandoA() == self 
     method mollyMirando() {
-        return "molly.png"
+        return "invertida"
     }
 }
 
