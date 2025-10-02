@@ -2,26 +2,43 @@ import wollok.game.*
 import molly.*
 import extras.*
 import comidas.*
+import bomba.*
+
+const variasComidas = []
+const manzana   = new Comida(image = "manzana.png"
+                ,position = game.at(0.randomUpTo(144),  140),
+                velocidad = 5)
+const pasto     = new Comida(image = "pasto.png"
+                , position = game.at(0.randomUpTo(144), 140),
+                velocidad = 10 )
+const flor      = new Comida(image = "flor.png"
+                , position = game.at(0.randomUpTo(144), 140) ,
+                velocidad = 4)
 
 
 program Game {
-	game.title("") 	//Valor por defecto "Wollok Game"
-	game.height(10) 		//valor por defecto 5
-	game.width(10) 			//valor por defecto 5
-	game.cellSize(50) 		//valor por defecto 50
+	game.title("patoJuego") 	//Valor por defecto "Wollok Game"
+	game.width(200) 			//valor por defecto 5
+	game.height(144) 		    //valor por defecto 5
+	game.cellSize(5) 		    //valor por defecto 50
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
 	game.boardGround("fondo.png")
     game.addVisual(piso)
     game.addVisual(molly)
     game.addVisual(manzana)
-    game.onTick(2000, "gravedad", {molly.descender()})
-    game.onTick(1000, "manzana cae", {manzana.descender()})
-    
-    //game.onCollideDo(comida, {molly.volver()})
+    game.addVisual(flor)
+    game.addVisual(pasto)
+    game.addVisual(bomba)
+
+    game.onTick(2000, "gravedad", {molly.descender()
+                                    manzana.descender()
+                                    pasto.descender()
+                                    flor.descender()
+                                    bomba.descender()})
+
 
     keyboard.left().onPressDo({molly.moverseIzquierda()})
     keyboard.right().onPressDo({molly.moverseDerecha()})
-	
     game.start()
 }
