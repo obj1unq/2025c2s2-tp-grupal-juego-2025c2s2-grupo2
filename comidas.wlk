@@ -3,8 +3,9 @@ import molly.*
 
 class Comida {
 
-    var property position = game.at(0.randomUpTo(game.height()), game.width())
+    var property position = game.at(5, 5)
     var property image = null
+    var property estaSiendoLevantada = false
 
     method descender() {  // Usar OnTick, va a caer gradualmente
         const objetosDebajo = game.getObjectsIn(position.down(1))
@@ -13,14 +14,17 @@ class Comida {
         }
     }
 
+    method agarrar() {
+        estaSiendoLevantada = true
+        position = game.at(molly.position().x(), molly.position().y() + 2)
+    }
+
     method puntosQueOtorga(){
         return 20
     }
 
 }
 
-const variasComidas = [manzana,pasto,flor]
+const variasComidas = [manzana]
 
 const manzana   = new Comida(image = "manzana.png")
-const pasto     = new Comida(image = "pasto.png")
-const flor      = new Comida(image = "flor.png")

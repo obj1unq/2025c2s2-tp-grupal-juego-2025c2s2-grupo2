@@ -6,22 +6,28 @@ import comidas.*
 
 program Game {
 	game.title("") 	//Valor por defecto "Wollok Game"
-	game.height(10) 		//valor por defecto 5
-	game.width(10) 			//valor por defecto 5
-	game.cellSize(50) 		//valor por defecto 50
+	game.height(144) 		//valor por defecto 5
+	game.width(200) 			//valor por defecto 5
+	game.cellSize(5) 		//valor por defecto 50
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
 	game.boardGround("fondo.png")
     game.addVisual(piso)
     game.addVisual(molly)
-    game.addVisual(manzana)
+    game.onTick(2000, "aparece comida", {variasComidas.forEach({comida => game.addVisual(comida)})})
     game.onTick(2000, "gravedad", {molly.descender()})
-    game.onTick(1000, "manzana cae", {manzana.descender()})
-    
-    //game.onCollideDo(comida, {molly.volver()})
 
+    game.onTick(50, "estaLevantandoUnaCaja",{
+        if(variasComidas.any({comida => comida.estaSiendoLevantada()})){
+            variasComidas.filter({comida => comida.estaSiendoLevantada()}).first().agarrar()
+        }
+    })
+    
+    keyboard.up().onPressDo({molly.saltar()})
     keyboard.left().onPressDo({molly.moverseIzquierda()})
     keyboard.right().onPressDo({molly.moverseDerecha()})
-	
+    keyboard.z().onPressDo({molly.sostenerCaja()})
+    
+
     game.start()
 }
