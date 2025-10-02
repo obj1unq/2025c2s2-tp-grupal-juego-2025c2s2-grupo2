@@ -18,8 +18,8 @@ const flor      = new Comida(image = "flor.png"
 
 program Game {
 	game.title("patoJuego") 	//Valor por defecto "Wollok Game"
-	game.width(200) 			//valor por defecto 5
-	game.height(144) 		    //valor por defecto 5
+	game.width(300) 			//valor por defecto 5
+	game.height(244) 		    //valor por defecto 5
 	game.cellSize(5) 		    //valor por defecto 50
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
@@ -36,6 +36,7 @@ program Game {
                                     pasto.descender()
                                     flor.descender()
                                     bomba.descender()})
+                                    flor.descender()})
 
 
     keyboard.left().onPressDo({molly.moverseIzquierda()})

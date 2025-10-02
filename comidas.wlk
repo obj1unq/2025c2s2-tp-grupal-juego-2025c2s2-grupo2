@@ -1,5 +1,6 @@
 import wollok.game.*
 import molly.*
+
 class Comida {
 
     var property image = null
@@ -16,5 +17,4 @@ class Comida {
     method puntosQueOtorga(){
         return 20
     }
-   
 }
