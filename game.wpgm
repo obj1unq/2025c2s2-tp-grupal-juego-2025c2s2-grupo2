@@ -11,15 +11,18 @@ program Game {
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
 	game.boardGround("fondo.png")
-    game.addVisual(piso)
     game.addVisual(molly)
     game.onTick(2000, "aparece comida", {variasComidas.forEach({comida => game.addVisual(comida)})})
     game.onTick(2000, "gravedad molly", {molly.descender()})
     game.onTick(100, "gravedad", {variasComidas.forEach({comida => comida.descender()})})
-    game.onTick(50, "estaLevantandoUnaCaja",{
-        if(variasComidas.any({comida => comida.estaSiendoLevantada()})){
-            variasComidas.filter({comida => comida.estaSiendoLevantada()}).first().agarrar()
-        }
+    game.onTick(50, "estaLevantandoUnaCaja", {
+        variasComidas.filter({comida => comida.estaSiendoLevantada()})
+                    .forEach({comida =>
+                        comida.position(game.at(
+                            comida.agarradaPor().position().x(),
+                            comida.agarradaPor().position().y() + 5
+                        ))
+                    })
     })
     
     keyboard.up().onPressDo({molly.saltar()})

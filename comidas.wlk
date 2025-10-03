@@ -6,18 +6,21 @@ class Comida {
     var property estaSiendoLevantada = false
     var property image = null
     var property position = null
-    var velocidad = 1
+    var property velocidad = null
+    var property agarradaPor = null 
 
     method descender() {  // Usar OnTick, va a caer gradualmente
         const objetosDebajo = game.getObjectsIn(position.down(1))
-        if(position.y() > 4 && objetosDebajo.isEmpty()) {
-            position = position.down(velocidad)
+        if(position.y() > 0 && objetosDebajo.isEmpty()) {
+            position = game.at(position.x(), position.y() - 1)
         }
     }
 
-    method agarrar() {
-        estaSiendoLevantada = true
-        position = game.at(molly.position().x(), molly.position().y() + 2)
+    method agarrar(jugador) {
+        self.estaSiendoLevantada(true)
+        self.agarradaPor(jugador)
+        // posicion inicial, justo encima
+        self.position(game.at(jugador.position().x(), jugador.position().y() + 5))
     }
 
     method puntosQueOtorga(){
@@ -27,11 +30,11 @@ class Comida {
 
 const variasComidas = [manzana, pasto, flor]
 const manzana   = new Comida(image = "manzana.png"
-                ,position = game.at(0.randomUpTo(144),  140),
-                velocidad = 5)
+                ,position = game.at((0.randomUpTo(144) / 5).round() * 5, 140),
+                velocidad = 1)
 const pasto     = new Comida(image = "pasto.png"
-                , position = game.at(0.randomUpTo(144), 140),
-                velocidad = 10 )
+                , position = game.at((0.randomUpTo(144) / 5).round() * 5, 140),
+                velocidad = 1 )
 const flor      = new Comida(image = "flor.png"
-                , position = game.at(0.randomUpTo(144), 140) ,
-                velocidad = 4)
+                , position = game.at((0.randomUpTo(144) / 5).round() * 5, 140) ,
+                velocidad = 1)
