@@ -60,4 +60,29 @@ object celdas {
     }
 }
 
+object puntaje {
+   var property position = game.at(4, 68)
+   method text () = "PUNTOS:" + " " + self.calcularPuntaje()
+
+   method calcularPuntaje() {
+        return 10
+   } 
+    
+}
+
+object vidas {
+    var property position =  game.at((126 / 2), 68)
+    method text() = "VIDAS:" + " " + self.vidasRestantes()
+
+    method vidasRestantes() {
+        return 3
+      
+    }
+}
+
+object tiempo {
+    var property position = game.at (123, 68)
+    method text () = "03:00" 
+}
+
 
