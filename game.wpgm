@@ -4,27 +4,14 @@ import extras.*
 import comidas.*
 import bomba.*
 
-const variasComidas = []
-const manzana   = new Comida(image = "manzana.png"
-                ,position = game.at(0.randomUpTo(144),  140),
-                velocidad = 5)
-const pasto     = new Comida(image = "pasto.png"
-                , position = game.at(0.randomUpTo(144), 140),
-                velocidad = 10 )
-const flor      = new Comida(image = "flor.png"
-                , position = game.at(0.randomUpTo(144), 140) ,
-                velocidad = 4)
-
-
 program Game {
 	game.title("patoJuego") 	//Valor por defecto "Wollok Game"
-	game.width(300) 			//valor por defecto 5
-	game.height(244) 		    //valor por defecto 5
-	game.cellSize(5) 		    //valor por defecto 50
+	game.width(126.2) 			//valor por defecto 5
+	game.height(70.2) 		    //valor por defecto 5
+	game.cellSize(10) 		    //valor por defecto 50
 	//search assets in assets folder, for example, for the background
 	//Valor por defecto game.ground("ground.png")
-	game.boardGround("fondo.png")
-    game.addVisual(piso)
+	//game.boardGround("fondo.png")
     game.addVisual(molly)
     game.addVisual(manzana)
     game.addVisual(flor)
@@ -37,11 +24,33 @@ program Game {
                                     flor.descender()
                                     bomba.descender()})
 
+    game.onTick(2000, "spawn comidas", {spawner.instanciar()
+    game.addVisual(variasComidas.last())})
+    //game.onTick(2000, "Instancias", {variasComidas.forEach({comida => game.addVisual(comida)})})
 
+
+
+
+    game.onTick(100, "gravedad", {variasComidas.forEach({comida => comida.descender()})})
+
+    game.onTick(1000, "gravedad molly", {molly.descender()})
+    game.onTick(50, "estaLevantandoUnaCaja", {
+        variasComidas.filter({comida => comida.estaSiendoLevantada()})
+                    .forEach({comida =>
+                        comida.position(game.at(
+                            comida.agarradaPor().position().x(),
+                            comida.agarradaPor().position().y() + 5
+                        ))
+                    })
+    })
+    
+    keyboard.up().onPressDo({molly.saltar()})
     keyboard.left().onPressDo({molly.moverseIzquierda()})
     keyboard.right().onPressDo({molly.moverseDerecha()})
 
     //game.onTick(200, "explosion", {bomba.explotar()})
 
+    keyboard.z().onPressDo({molly.sostenerCaja()})
+    
     game.start()
 }
