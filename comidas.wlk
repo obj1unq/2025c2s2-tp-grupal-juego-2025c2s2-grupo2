@@ -26,15 +26,29 @@ class Comida {
     method puntosQueOtorga(){
         return 20
     }
+
+    //-----------------------------------------------------------------------
+
+    method instanciarComida(){
+        const elemento = new Comida(image = "manzana.png"
+                ,position = game.at((0.randomUpTo(144) / 5).round() * 5, 50),
+                velocidad = 1)
+        variasComidas.add(elemento)
+        console.println(variasComidas.size())
+    }
+
 }
 
-const variasComidas = [manzana, pasto, flor]
+const variasComidas = []
+
 const manzana   = new Comida(image = "manzana.png"
-                ,position = game.at((0.randomUpTo(144) / 5).round() * 5, 140),
+                ,position = game.at((0.randomUpTo(144) / 5).round() * 5, 120),
                 velocidad = 1)
-const pasto     = new Comida(image = "pasto.png"
-                , position = game.at((0.randomUpTo(144) / 5).round() * 5, 140),
+/*
+const zanahoria     = new Comida(image = "BIGZANAHORIA.png"
+                , position = game.at((0.randomUpTo(144) / 5).round() * 5, 120),
                 velocidad = 1 )
-const flor      = new Comida(image = "flor.png"
-                , position = game.at((0.randomUpTo(144) / 5).round() * 5, 140) ,
+const sandia      = new Comida(image = "sandia.png"
+                , position = game.at((0.randomUpTo(144) / 5).round() * 5, 120) ,
                 velocidad = 1)
+*/
