@@ -8,6 +8,7 @@ object molly {
     var property position = game.at(0, 0)
     var property vidas = 3
     var property puntos = 0
+    var property cajaLevantada = null 
     
     method image() = "molly-" + mirandoA + ".png"
 
@@ -59,6 +60,10 @@ object molly {
 
         console.println("  -> Agarrando comida en " + mejor.position())
         mejor.agarrar(self)
+    }
+
+    method lanzarCaja() {
+        
     }
 
     method moverseDerecha() {
