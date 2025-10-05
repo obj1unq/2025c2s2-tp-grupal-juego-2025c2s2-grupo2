@@ -36,10 +36,12 @@ program Game {
                                     pasto.descender()
                                     flor.descender()
                                     bomba.descender()})
-                                    flor.descender()})
 
 
     keyboard.left().onPressDo({molly.moverseIzquierda()})
     keyboard.right().onPressDo({molly.moverseDerecha()})
+
+    //game.onTick(200, "explosion", {bomba.explotar()})
+
     game.start()
 }

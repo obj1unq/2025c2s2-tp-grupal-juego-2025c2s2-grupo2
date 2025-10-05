@@ -1,7 +1,7 @@
 import wollok.game.*
 
 object bomba {
-    var property position = game.at(0.randomUpTo(game.height()), game.width())
+    var property position = game.at(0.randomUpTo(144), 140)
     var property image = "bombita.png"
 
     method descender() {  // Usar OnTick, va a caer gradualmente
@@ -11,7 +11,13 @@ object bomba {
         }
     }
 
-    method puntosQueOtorga(comida){
-        return 10 * comida.puntosQueOtorga()
+    /*method explotar(){
+        self.validarSiExplota()
+        image = "explosion.png"
+        game.removeVisual(self)
     }
+
+    method validarSiExplota(){
+
+    }*/ //hay que verlo...
 }
