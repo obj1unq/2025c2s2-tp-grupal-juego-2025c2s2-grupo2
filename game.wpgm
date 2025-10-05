@@ -13,15 +13,16 @@ program Game {
 	//game.boardGround("fondo.png")
     game.addVisual(molly)
 
-    game.onTick(2000, "spawn comidas", {Comida.instanciarComida()})
-    game.onTick(2000, "Instancias", {variasComidas.forEach({comida => game.addVisual(comida)})})
+    game.onTick(2000, "spawn comidas", {spawner.instanciar()
+    game.addVisual(variasComidas.last())})
+    //game.onTick(2000, "Instancias", {variasComidas.forEach({comida => game.addVisual(comida)})})
 
 
 
 
-    //game.onTick(100, "gravedad", {variasComidas.forEach({comida => comida.descender()})})
+    game.onTick(100, "gravedad", {variasComidas.forEach({comida => comida.descender()})})
 
-    game.onTick(2000, "gravedad molly", {molly.descender()})
+    game.onTick(1000, "gravedad molly", {molly.descender()})
     game.onTick(50, "estaLevantandoUnaCaja", {
         variasComidas.filter({comida => comida.estaSiendoLevantada()})
                     .forEach({comida =>

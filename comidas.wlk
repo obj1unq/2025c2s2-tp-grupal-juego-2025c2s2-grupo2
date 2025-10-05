@@ -29,14 +29,6 @@ class Comida {
 
     //-----------------------------------------------------------------------
 
-    method instanciarComida(){
-        const elemento = new Comida(image = "manzana.png"
-                ,position = game.at((0.randomUpTo(144) / 5).round() * 5, 50),
-                velocidad = 1)
-        variasComidas.add(elemento)
-        console.println(variasComidas.size())
-    }
-
 }
 
 const variasComidas = []
@@ -52,3 +44,21 @@ const sandia      = new Comida(image = "sandia.png"
                 , position = game.at((0.randomUpTo(144) / 5).round() * 5, 120) ,
                 velocidad = 1)
 */
+
+object spawner {
+
+    var idInstancia = 0
+
+    method instanciar() {
+        var elemento = new Comida(image = "manzana.png"
+                ,position = game.at((self.posXRandom() / 5 )* 5 , 50),
+                velocidad = 1)
+        variasComidas.add(elemento)
+        console.println(variasComidas.size())
+    }
+
+    method posXRandom() {
+        return 0.randomUpTo(144)
+    }
+
+}

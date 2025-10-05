@@ -99,7 +99,7 @@ object molly {
 
     method descender() {
         if(position.y() > 0){
-            position = game.at(position.x(), position.y() - 1)  
+            position = game.at(position.x(), position.y() - 10)  
         }
     }
 }
