@@ -4,7 +4,7 @@ import comidas.*
 
 
 object molly {
-    var property mirandoA = "invertida"
+    var property mirandoA = "der"
     var property position = game.at(0, 0)
     var property vidas = 3
     var property puntos = 0
@@ -62,14 +62,14 @@ object molly {
     }
 
     method moverseDerecha() {
-        mirandoA = "invertida"
+        mirandoA = "der"
         self.validarMoverseDerecha()
         celdas.verificarMovimientoMolly(game.at(self.position().x() + 5, self.position().y()), "derecha")
         position = game.at(self.position().x() + 5, self.position().y())
     }
 
     method moverseIzquierda() {
-        mirandoA = "normal"
+        mirandoA = "izq"
         self.validarMoverseIzquierda()
         celdas.verificarMovimientoMolly(game.at(self.position().x() - 5, self.position().y()), "izquierda")
         position = game.at(self.position().x() - 5, self.position().y())
