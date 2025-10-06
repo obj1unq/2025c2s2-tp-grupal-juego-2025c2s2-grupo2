@@ -2,20 +2,23 @@ import wollok.game.*
 import extras.*
 import comidas.*
 
-
 object molly {
     var property mirandoA = der
     var property position = game.at(0, 0)
-    var property vidas = 3
+    var property vidas = []
     var property puntos = 0
     var comidaLevantada = null
     
     method image() = "molly-" + mirandoA.nombreDir() + ".png"
 
+    method vidasRestantes(){
+        return vidas.filter({vida => vida.estaFeliz()}).size()
+    }
+
     method sostenerCaja() {
         if(der.estaMirandoMolly()){
             comidaLevantada = game.getObjectsIn(position.right(1)).first()
-
+            
         }
     }
 

@@ -31,41 +31,46 @@ object der {
     }
 }
 
-class Hitbox {
-    var property x1 = 0
-    var property y1 = 0
-    var property x2 = 0
-    var property y2 = 0
-
-    method colisionaCon(otraHitbox) {
-        return self.x1() < otraHitbox.x2() and
-               self.x2() > otraHitbox.x1() and
-               self.y1() < otraHitbox.y2() and
-               self.y2() > otraHitbox.y1()
-    }
+object puntaje {
+   var property position = game.at(4, 68)
+   method text () = "PUNTOS:" + " " + molly.puntos()
 }
 
-object celdas {
-    method verificarMovimientoMolly(nuevaPosicion, direccion) {
-        const offset = if (direccion == "derecha") 5 else 0
+object marcoPuntaje {
+    var property position = game.at(4, 65)
+    method image() = "marquito.png"
+}
 
-        // Definir la hitbox de Molly en la nueva posición
-        const mollyBox = new Hitbox(
-            x1 = nuevaPosicion.x() + offset, 
-            y1 = nuevaPosicion.y(), 
-            x2 = nuevaPosicion.x() + 5 + offset,
-            y2 = nuevaPosicion.y() + 5
-        )
+class Corazon {
+    var property position = null
+    const estaFeliz = true
 
-        // Verificar si hay colisiones con alguna comida
-        if (variasComidas.any({comida =>
-            const comidaBox = new Hitbox(x1 = comida.position().x(),
-            y1 = comida.position().y(),
-            x2 = comida.position().x() + 5,
-            y2 = comida.position().y() + 5)
-            mollyBox.colisionaCon(comidaBox)
-        })) {
-            self.error("error")  // Hay colisión, no se puede mover
+    method image(){
+        if (estaFeliz){
+            return "corazoncitofeliz.png"
+        }
+        else{
+            return "corazoncitotrite.png"
+        }
+    }
+
+}
+
+object tiempo { //TERMINAR!!
+    var property position = game.at (123, 68)
+    var property segundos = 0
+    var property minutos = segundos.div(60)
+    method text () = " " + minutos + ":" + segundos
+    method transcurrir(){
+        if (minutos != 3 && segundos < 60){
+            segundos += 1
+            minutos = segundos.div(60)
+        }
+        else if (minutos != 3){
+            segundos = 0
+        }
+        else{
+            game.stop()
         }
     }
 }
