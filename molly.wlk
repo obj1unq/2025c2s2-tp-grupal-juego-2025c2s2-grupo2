@@ -14,9 +14,22 @@ object molly {
 
     method sostenerCaja() {
         if(der.estaMirandoMolly()){
-            comidaLevantada = game.getObjectsIn(position.right(1)).first()
-
+            comidaLevantada = game.getObjectsIn(position.right(7)).first()
+            comidaLevantada.estaSiendoLevantada(true)
         }
+        else {  
+            comidaLevantada = game.getObjectsIn(position.left(7)).first()
+            comidaLevantada.estaSiendoLevantada(true)
+        }
+
+    }
+
+    method soltarCaja() {
+        comidaLevantada = game.getObjectsIn(position.up(7)).first()
+        comidaLevantada.estaSiendoLevantada(false)
+        comidaLevantada.pos(position)
+        position = position.up(7)
+        
     }
 
     method moverse(direccion) {
@@ -36,15 +49,15 @@ object molly {
     }
 
     method saltar() {
-        position = position.up(10)
+        if (position.y() == 0 || not game.getObjectsIn(position.down(7)).isEmpty() )
+          {position = position.up(10)}
     }
 
     method descender() {
-        if(position.y() > 0){
-            position = position.down(1) 
-        }
-        else {
-            position = game.at(position.x(), 0)
+       const objetosDebajo = game.getObjectsIn(position.down(7))
+        if (position.y() > 0 && objetosDebajo.isEmpty()) {
+            position = position.down(1)
         }
     }
+
 }

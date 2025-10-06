@@ -10,7 +10,6 @@ program Game {
 	game.height(70.2) 	
 	game.cellSize(10) 		    
     game.addVisual(molly)
-    game.addVisual(new Manzana(position=game.at(10,0)))
 
     game.onTick(2000, "spawn comidas", {spawner.instanciarAleatorio()})
     game.onTick(100, "gravedad comida", {spawner.instancias().forEach({unaComida => unaComida.descender()})})
@@ -20,10 +19,8 @@ program Game {
     keyboard.up().onPressDo({molly.saltar()})
     keyboard.left().onPressDo({molly.moverse(izq)})
     keyboard.right().onPressDo({molly.moverse(der)})
-
-    //game.onTick(200, "explosion", {bomba.explotar()})
-
     keyboard.z().onPressDo({molly.sostenerCaja()})
+    keyboard.down().onPressDo({molly.soltarCaja()})
     
     game.start()
 }
