@@ -1,17 +1,51 @@
+import wollok.mirror.*
 import wollok.game.*
 import molly.*
+
+class ObjetoDePrueba {
+    var property estaSiendoLevantada = false
+    var property image = "zanahoria.png"
+    var property pos = game.center()
+
+    method position() {
+        if (estaSiendoLevantada)
+            {return game.at(molly.position().x(), molly.position().y() + 7)}
+        else {return pos}
+    }
+    
+    method posX() {
+        const rangoMinimo = 0
+        const rangoMaximo = 126
+
+        return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
+    }
+
+    method descender() {  // Usar OnTick, va a caer gradualmente
+        const objetosDebajo = game.getObjectsIn(pos.down(7))
+        if(pos.y() > 0 && objetosDebajo.isEmpty()) {
+            pos = pos.down(1)
+        }
+    }
+
+}
 
 class Manzana {
     var property estaSiendoLevantada = false
     var property image = "manzana.png"
-    var property position = game.at(self.posX(), 70)
+    var property pos = game.at(self.posX(), 70)
     var property agarradaPor = null 
     var property tipo = "manzana"
 
+    method position() {
+        if (estaSiendoLevantada)
+            {return game.at(molly.position().x(), molly.position().y() + 7)}
+        else {return pos}
+    }
+
     method descender() {  // Usar OnTick, va a caer gradualmente
-        const objetosDebajo = game.getObjectsIn(position.down(7))
-        if(position.y() > 0 && objetosDebajo.isEmpty()) {
-            position = position.down(1)
+        const objetosDebajo = game.getObjectsIn(pos.down(7))
+        if(pos.y() > 0 && objetosDebajo.isEmpty()) {
+            pos = pos.down(1)
         }
     }
 
@@ -27,14 +61,20 @@ class Manzana {
 class Zanahoria {
     var property estaSiendoLevantada = false
     var property image = "BIGZANAHORIA.png"
-    var property position = game.at(self.posX(), 70)
+    var property pos = game.at(self.posX(), 70)
     var property agarradaPor = null 
     var property tipo = "zanahoria"
 
+    method position() {
+        if (estaSiendoLevantada)
+            {return game.at(molly.position().x(), molly.position().y() + 7)}
+        else {return pos}
+    }
+
     method descender() {  //Usar OnTick, va a caer gradualmente
-        const objetosDebajo = game.getObjectsIn(position.down(7))
-        if(position.y() > 0 && objetosDebajo.isEmpty()) {
-            position = position.down(1)
+        const objetosDebajo = game.getObjectsIn(pos.down(7))
+        if(pos.y() > 0 && objetosDebajo.isEmpty()) {
+            pos = pos.down(1)
         }
     }
 
@@ -49,14 +89,20 @@ class Zanahoria {
 class Sandia {
     var property estaSiendoLevantada = false
     var property image = "sandia.png"
-    var property position = game.at(self.posX(), 70)
+    var property pos = game.at(self.posX(), 70)
     var property agarradaPor = null 
     var property tipo = "sandia"
 
+    method position() {
+        if (estaSiendoLevantada)
+            {return game.at(molly.position().x(), molly.position().y() + 7)}
+        else {return pos}
+    }
+
     method descender() {  //Usar OnTick, va a caer gradualmente
-        const objetosDebajo = game.getObjectsIn(position.down(7))
-        if(position.y() > 0 && objetosDebajo.isEmpty()) {
-            position = position.down(1)
+        const objetosDebajo = game.getObjectsIn(pos.down(7))
+        if(pos.y() > 0 && objetosDebajo.isEmpty()) {
+            pos = pos.down(1)
         }
     }
 
@@ -68,22 +114,38 @@ class Sandia {
     }
 }
 
-
-const variasComidas = []
 object spawner {
+    const property instancias = []
 
-    //const ubicacionesPermitidas = [0,7,14,21,28,35,42,49,56,63,70,77,84,91,98,105,112,119,126]
-    const listaDeBloques = [
-    {var manzana = new Manzana()}, 
-    {var zanahoria = new Zanahoria()}, 
-    {var sandia = new Sandia()}
-    ]
-
-    method instanciar() {
-        variasComidas.add(
-            listaDeBloques.randomize().apply()
-        )
-        console.println( "Cantidad de Objetos = " + variasComidas.size())
+    method instanciarManzana() {
+        var manzana = new Manzana()
+        game.addVisual(manzana)
+        instancias.add(manzana)
     }
 
+    method instanciarSandia() {
+        var sandia = new Sandia()
+        game.addVisual(sandia)
+        instancias.add(sandia)
+    }
+
+    method instanciarZanahoria() {
+        var zanahoria = new Zanahoria()
+        game.addVisual(zanahoria)
+        instancias.add(zanahoria)
+    }
+
+    method instanciarObjetoDePrueba() {
+        var obj = new ObjetoDePrueba()
+        game.addVisual(obj)
+        instancias.add(obj)
+      
+    }
+
+    method instanciarAleatorio() {
+        const bloques = [{self.instanciarSandia()}, {self.instanciarZanahoria()}, {self.instanciarManzana()}]
+        bloques.randomize() 
+        bloques.first().apply()
+        console.println(instancias.size())
+    }
 }

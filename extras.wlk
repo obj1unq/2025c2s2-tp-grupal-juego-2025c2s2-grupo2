@@ -2,11 +2,6 @@ import wollok.game.*
 import molly.*
 import comidas.*
 
-object piso {
-    var property position = game.at(0, 0)
-    var property image = "piso.png" 
-}
-
 object izq {
     method nombreDir() {
         return "izq"
@@ -43,7 +38,7 @@ object marcoPuntaje {
 
 class Corazon {
     var property position = null
-    const estaFeliz = true
+    const estaFeliz = null
 
     method image(){
         if (estaFeliz){
