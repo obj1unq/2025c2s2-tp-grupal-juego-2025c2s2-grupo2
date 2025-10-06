@@ -7,12 +7,28 @@ object piso {
     var property image = "piso.png" 
 }
 
-object izquierda {
-    method estaMirando() = molly.mirandoA() == self 
+object izq {
+    method nombreDir() {
+        return "izq"
+    }
+    method siguiente(position){
+        return position.left(7)
+    }
+    method estaMirandoMolly(){
+        return molly.mirandoA() == self
+    }
 }
 
-object derecha {
-    method estaMirando() = molly.mirandoA() == self 
+object der {
+    method nombreDir() {
+        return "der"
+    }
+    method siguiente(position){
+        return position.right(7)
+    }
+    method estaMirandoMolly(){
+        return molly.mirandoA() == self
+    }
 }
 
 class Hitbox {

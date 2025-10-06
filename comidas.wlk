@@ -1,72 +1,89 @@
 import wollok.game.*
 import molly.*
-import extras.*
 
-class Comida {
+class Manzana {
     var property estaSiendoLevantada = false
-    var property image = null
-    var property position = null
-    var property velocidad = null
+    var property image = "manzana.png"
+    var property position = game.at(self.posX(), 70)
     var property agarradaPor = null 
-    var property enMovimiento = false
-    var property direccion = null
+    var property tipo = "manzana"
 
     method descender() {  // Usar OnTick, va a caer gradualmente
-        const objetosDebajo = game.getObjectsIn(position.down(1))
+        const objetosDebajo = game.getObjectsIn(position.down(7))
         if(position.y() > 0 && objetosDebajo.isEmpty()) {
-            position = game.at(position.x(), position.y() - 1)
+            position = position.down(1)
         }
     }
 
-    method agarrar(jugador) {
-        self.estaSiendoLevantada(true)
-        self.agarradaPor(jugador)
-        // posicion inicial, justo encima
-        self.position(game.at(jugador.position().x(), jugador.position().y() + 5))
+     method posX() {
+        const rangoMinimo = 0
+        const rangoMaximo = 126
+
+        return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
     }
 
-    method puntosQueOtorga(){
-        return 20
-    }
-
-    method lanzar(unaDireccion) {
-        self.estaSiendoLevantada(false)
-        self.agarradaPor(null)
-        self.direccion(direccion)
-        self.enMovimiento(true)
-        self.mover()
-    }
-
-    method moverHacia(direccion){
-        if (direccion == "der") {
-            self.position(game.at(self.position().x() + velocidad, self.position().y()))
-        } else {
-            self.position(game.at(self.position().x() - velocidad, self.position().y()))
-        }
-    }
-
-    method mover() {
-        if (celdas.puedeMoverCaja(self, direccion) && enMovimiento){
-            self.moverHacia(direccion)
-        } else {
-            enMovimiento = false
-        }
-    }   
 }
 
-const variasComidas = []
+class Zanahoria {
+    var property estaSiendoLevantada = false
+    var property image = "BIGZANAHORIA.png"
+    var property position = game.at(self.posX(), 70)
+    var property agarradaPor = null 
+    var property tipo = "zanahoria"
 
-object spawner {
-    method instanciar() {
-        const elemento = new Comida(image = "sandia.png"
-                ,position = game.at(50, 50),
-                velocidad = 1)
-        variasComidas.add(elemento)
-        console.println(variasComidas.size())
+    method descender() {  //Usar OnTick, va a caer gradualmente
+        const objetosDebajo = game.getObjectsIn(position.down(7))
+        if(position.y() > 0 && objetosDebajo.isEmpty()) {
+            position = position.down(1)
+        }
     }
 
-    method posXRandom() {
-        return 0.randomUpTo(144)
+     method posX() {
+        const rangoMinimo = 0
+        const rangoMaximo = 126
+
+        return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
+    }
+}
+
+class Sandia {
+    var property estaSiendoLevantada = false
+    var property image = "sandia.png"
+    var property position = game.at(self.posX(), 70)
+    var property agarradaPor = null 
+    var property tipo = "sandia"
+
+    method descender() {  //Usar OnTick, va a caer gradualmente
+        const objetosDebajo = game.getObjectsIn(position.down(7))
+        if(position.y() > 0 && objetosDebajo.isEmpty()) {
+            position = position.down(1)
+        }
+    }
+
+     method posX() {
+        const rangoMinimo = 0
+        const rangoMaximo = 126
+
+        return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
+    }
+}
+
+
+const variasComidas = []
+object spawner {
+
+    //const ubicacionesPermitidas = [0,7,14,21,28,35,42,49,56,63,70,77,84,91,98,105,112,119,126]
+    const listaDeBloques = [
+    {var manzana = new Manzana()}, 
+    {var zanahoria = new Zanahoria()}, 
+    {var sandia = new Sandia()}
+    ]
+
+    method instanciar() {
+        variasComidas.add(
+            listaDeBloques.randomize().apply()
+        )
+        console.println( "Cantidad de Objetos = " + variasComidas.size())
     }
 
 }
