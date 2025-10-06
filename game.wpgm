@@ -10,6 +10,7 @@ program Game {
 	game.height(70.2) 	
 	game.cellSize(10) 		    
     game.addVisual(molly)
+    game.addVisual(new Manzana(position=game.at(10,0)))
 
     game.onTick(2000, "gravedad", {molly.descender()})
 
@@ -20,7 +21,7 @@ program Game {
 
 
     game.onTick(100, "gravedad", {variasComidas.forEach({comida => comida.descender()})})
-    game.onTick(1000, "gravedad molly", {molly.descender()})
+    game.onTick(100, "gravedad molly", {molly.descender()})
     
     keyboard.up().onPressDo({molly.saltar()})
     keyboard.left().onPressDo({molly.moverse(izq)})
