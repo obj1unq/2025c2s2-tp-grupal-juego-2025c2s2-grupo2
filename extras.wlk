@@ -7,17 +7,27 @@ object piso {
     var property image = "piso.png" 
 }
 
-object izquierda {
-    method estaMirando() = molly.mirandoA() == self 
-    method mollyMirando() {
-        return "normal"
+object izq {
+    method nombreDir() {
+        return "izq"
+    }
+    method siguiente(position){
+        return position.left(7)
+    }
+    method estaMirandoMolly(){
+        return molly.mirandoA() == self
     }
 }
 
-object derecha {
-    method estaMirando() = molly.mirandoA() == self 
-    method mollyMirando() {
-        return "invertida"
+object der {
+    method nombreDir() {
+        return "der"
+    }
+    method siguiente(position){
+        return position.right(7)
+    }
+    method estaMirandoMolly(){
+        return molly.mirandoA() == self
     }
 }
 

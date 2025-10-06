@@ -4,12 +4,12 @@ import comidas.*
 
 
 object molly {
-    var property mirandoA = "der"
+    var property mirandoA = der
     var property position = game.at(0, 0)
     var property vidas = 3
     var property puntos = 0
     
-    method image() = "molly-" + mirandoA + ".png"
+    method image() = "molly-" + mirandoA.nombreDir() + ".png"
 
     method sostenerCaja() {
         const px = self.position().x()
@@ -61,31 +61,20 @@ object molly {
         mejor.agarrar(self)
     }
 
-    method moverseDerecha() {
-        mirandoA = "der"
-        self.validarMoverseDerecha()
-        celdas.verificarMovimientoMolly(game.at(self.position().x() + 5, self.position().y()), "derecha")
-        position = game.at(self.position().x() + 5, self.position().y())
-    }
-
-    method moverseIzquierda() {
-        mirandoA = "izq"
-        self.validarMoverseIzquierda()
-        celdas.verificarMovimientoMolly(game.at(self.position().x() - 5, self.position().y()), "izquierda")
-        position = game.at(self.position().x() - 5, self.position().y())
+    method moverse(direccion) {
+        mirandoA = direccion // Cambia el sprite de molly hacia la direccion donde se mueve
+        self.validarMoverse(direccion)
+        position = direccion.siguiente(position)
     }
 
 
-    method validarMoverseDerecha() {
-        if (self.position().x() == game.height() - 1){
-            self.error("esta en un borde por ende no se puede mover")
-        }
-    }
-
-    method validarMoverseIzquierda() {
-        if (self.position().x() == 0){
-            self.error("esta en un borde por ende no se puede mover")
-        }
+    method validarMoverse(direccion) {
+        const bordeIzq = self.position().x() == 0 && izq.estaMirandoMolly()                // Indica si la posicion de Molly es la del borde izquierdo y si Molly está mirando para ese borde (es decir, tiene intencion de irse al otro borde)
+        const bordeDer = self.position().x() >= game.width()-10 && der.estaMirandoMolly()  // Lo mismo que arriba. Que sea mayor o igual al game width-10 significa el borde derecho (el 10 por el tamaño de celda)
+        const objetoDir = game.getObjectsIn(direccion.siguiente(position))                 // Me da lista de objetos en la posicion a la que me quiero mover               
+        if (bordeIzq || bordeDer || not objetoDir.isEmpty()){                              // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
+            self.error("")                                                                 // String vacio significa que no se mueve!
+        } 
     }
 
     method saltar() {
@@ -94,7 +83,7 @@ object molly {
 
     method descender() {
         if(position.y() > 0){
-            position = game.at(position.x(), position.y() - 10)  
+            position = game.at(position.x(), position.y() - 7)  
         }
     }
 }
