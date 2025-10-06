@@ -59,30 +59,35 @@ object molly {
         })
 
         console.println("  -> Agarrando comida en " + mejor.position())
+        cajaLevantada = comidasCerca.first()
         mejor.agarrar(self)
     }
 
     method lanzarCaja() {
-        
+        if (cajaLevantada != null) {
+            cajaLevantada.lanzar(mirandoA)
+            cajaLevantada = null
+        }
     }
+
 
     method moverseDerecha() {
         mirandoA = "der"
         self.validarMoverseDerecha()
-        celdas.verificarMovimientoMolly(game.at(self.position().x() + 5, self.position().y()), "derecha")
-        position = game.at(self.position().x() + 5, self.position().y())
+        celdas.verificarMovimientoMolly(game.at(self.position().x() + 7, self.position().y()), "derecha")
+        position = game.at(self.position().x() + 7, self.position().y())
     }
 
     method moverseIzquierda() {
         mirandoA = "izq"
         self.validarMoverseIzquierda()
-        celdas.verificarMovimientoMolly(game.at(self.position().x() - 5, self.position().y()), "izquierda")
-        position = game.at(self.position().x() - 5, self.position().y())
+        celdas.verificarMovimientoMolly(game.at(self.position().x() - 7, self.position().y()), "izquierda")
+        position = game.at(self.position().x() - 7, self.position().y())
     }
 
 
     method validarMoverseDerecha() {
-        if (self.position().x() == game.height() - 1){
+        if (self.position().x() >= game.width() - 10){
             self.error("esta en un borde por ende no se puede mover")
         }
     }
@@ -94,12 +99,12 @@ object molly {
     }
 
     method saltar() {
-        position = game.at(position.x(), position.y() + 5)
+        position = game.at(position.x(), position.y() + 7)
     }
 
     method descender() {
         if(position.y() > 0){
-            position = game.at(position.x(), position.y() - 10)  
+            position = game.at(position.x(), position.y() - 7)  
         }
     }
 }

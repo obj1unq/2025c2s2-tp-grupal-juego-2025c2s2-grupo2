@@ -9,16 +9,10 @@ object piso {
 
 object izquierda {
     method estaMirando() = molly.mirandoA() == self 
-    method mollyMirando() {
-        return "normal"
-    }
 }
 
 object derecha {
     method estaMirando() = molly.mirandoA() == self 
-    method mollyMirando() {
-        return "invertida"
-    }
 }
 
 class Hitbox {
@@ -37,26 +31,53 @@ class Hitbox {
 
 object celdas {
     method verificarMovimientoMolly(nuevaPosicion, direccion) {
-        const offset = if (direccion == "derecha") 5 else 0
+        const offset = if (direccion == "derecha") 10 else 0
 
         // Definir la hitbox de Molly en la nueva posición
         const mollyBox = new Hitbox(
             x1 = nuevaPosicion.x() + offset, 
             y1 = nuevaPosicion.y(), 
-            x2 = nuevaPosicion.x() + 5 + offset,
-            y2 = nuevaPosicion.y() + 5
+            x2 = nuevaPosicion.x() + 10 + offset,
+            y2 = nuevaPosicion.y() + 10
         )
 
         // Verificar si hay colisiones con alguna comida
         if (variasComidas.any({comida =>
             const comidaBox = new Hitbox(x1 = comida.position().x(),
             y1 = comida.position().y(),
-            x2 = comida.position().x() + 5,
-            y2 = comida.position().y() + 5)
+            x2 = comida.position().x() + 10,
+            y2 = comida.position().y() + 10)
             mollyBox.colisionaCon(comidaBox)
         })) {
             self.error("error")  // Hay colisión, no se puede mover
         }
+    }
+
+    method puedeMoverCaja(caja, direccion) {
+        const nuevaX = if (direccion == "der") caja.position().x() + caja.velocidad() else caja.position().x() - caja.velocidad()
+        const nuevaPos = game.at(nuevaX, caja.position().y())
+
+        // Chequea si toca bordes
+        if (nuevaX <= 0 or nuevaX >= game.width() - 10) return false
+
+        // Chequea colisión con otras comidas
+        return not (variasComidas.any({ otra =>
+            if (otra != caja) {
+                const cajaBox = new Hitbox(
+                    x1 = nuevaPos.x(),
+                    y1 = nuevaPos.y(),
+                    x2 = nuevaPos.x() + 10,
+                    y2 = nuevaPos.y() + 10
+                )
+                const otraBox = new Hitbox(
+                    x1 = otra.position().x(),
+                    y1 = otra.position().y(),
+                    x2 = otra.position().x() + 10,
+                    y2 = otra.position().y() + 10
+                )
+                cajaBox.colisionaCon(otraBox)
+            } else false
+        }))
     }
 }
 

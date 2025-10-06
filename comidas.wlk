@@ -1,6 +1,6 @@
 import wollok.game.*
 import molly.*
-
+import extras.*
 
 class Comida {
     var property estaSiendoLevantada = false
@@ -8,6 +8,8 @@ class Comida {
     var property position = null
     var property velocidad = null
     var property agarradaPor = null 
+    var property enMovimiento = false
+    var property direccion = null
 
     method descender() {  // Usar OnTick, va a caer gradualmente
         const objetosDebajo = game.getObjectsIn(position.down(1))
@@ -27,31 +29,37 @@ class Comida {
         return 20
     }
 
-    //-----------------------------------------------------------------------
+    method lanzar(unaDireccion) {
+        self.estaSiendoLevantada(false)
+        self.agarradaPor(null)
+        self.direccion(direccion)
+        self.enMovimiento(true)
+        self.mover()
+    }
 
+    method moverHacia(direccion){
+        if (direccion == "der") {
+            self.position(game.at(self.position().x() + velocidad, self.position().y()))
+        } else {
+            self.position(game.at(self.position().x() - velocidad, self.position().y()))
+        }
+    }
+
+    method mover() {
+        if (celdas.puedeMoverCaja(self, direccion) && enMovimiento){
+            self.moverHacia(direccion)
+        } else {
+            enMovimiento = false
+        }
+    }   
 }
 
 const variasComidas = []
 
-const manzana   = new Comida(image = "manzana.png"
-                ,position = game.at((0.randomUpTo(144) / 5).round() * 5, 120),
-                velocidad = 1)
-/*
-const zanahoria     = new Comida(image = "BIGZANAHORIA.png"
-                , position = game.at((0.randomUpTo(144) / 5).round() * 5, 120),
-                velocidad = 1 )
-const sandia      = new Comida(image = "sandia.png"
-                , position = game.at((0.randomUpTo(144) / 5).round() * 5, 120) ,
-                velocidad = 1)
-*/
-
 object spawner {
-
-    var idInstancia = 0
-
     method instanciar() {
-        var elemento = new Comida(image = "manzana.png"
-                ,position = game.at((self.posXRandom() / 5 )* 5 , 50),
+        const elemento = new Comida(image = "sandia.png"
+                ,position = game.at(50, 50),
                 velocidad = 1)
         variasComidas.add(elemento)
         console.println(variasComidas.size())
