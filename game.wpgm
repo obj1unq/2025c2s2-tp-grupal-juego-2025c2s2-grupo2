@@ -5,15 +5,13 @@ import comidas.*
 import bomba.*
 
 program Game {
-	game.title("patoJuego") 
-	game.width(126.2) 			
-	game.height(70.2) 		    
-	game.cellSize(10) 		   
-
+	game.title("patoJuego")
+	game.width(126.2) 	
+	game.height(70.2) 	
+	game.cellSize(10) 		    
     game.addVisual(molly)
-    game.addVisual(manzana)
-    game.addVisual(zanahoria)
-    game.addVisual(sandia)
+
+    game.onTick(2000, "gravedad", {molly.descender()})
 
     game.onTick(2000, "spawn comidas", {spawner.instanciar()
     game.addVisual(variasComidas.last())})
@@ -22,17 +20,7 @@ program Game {
 
 
     game.onTick(100, "gravedad", {variasComidas.forEach({comida => comida.descender()})})
-
     game.onTick(1000, "gravedad molly", {molly.descender()})
-    game.onTick(50, "estaLevantandoUnaCaja", {
-        variasComidas.filter({comida => comida.estaSiendoLevantada()})
-                    .forEach({comida =>
-                        comida.position(game.at(
-                            comida.agarradaPor().position().x(),
-                            comida.agarradaPor().position().y() + 5
-                        ))
-                    })
-    })
     
     keyboard.up().onPressDo({molly.saltar()})
     keyboard.left().onPressDo({molly.moverse(izq)})

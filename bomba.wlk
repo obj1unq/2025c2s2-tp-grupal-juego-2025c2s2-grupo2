@@ -14,6 +14,8 @@ object bomba {
     /*method explotar(){
         self.validarSiExplota()
         image = "explosion.png"
+
+        
         game.removeVisual(self)
     }
 
