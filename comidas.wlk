@@ -68,22 +68,31 @@ class Sandia {
     }
 }
 
-
-const variasComidas = []
 object spawner {
+    const property instancias = []
 
-    //const ubicacionesPermitidas = [0,7,14,21,28,35,42,49,56,63,70,77,84,91,98,105,112,119,126]
-    const listaDeBloques = [
-    {var manzana = new Manzana()}, 
-    {var zanahoria = new Zanahoria()}, 
-    {var sandia = new Sandia()}
-    ]
-
-    method instanciar() {
-        variasComidas.add(
-            listaDeBloques.randomize().apply()
-        )
-        console.println( "Cantidad de Objetos = " + variasComidas.size())
+    method instanciarManzana() {
+        var manzana = new Manzana()
+        game.addVisual(manzana)
+        instancias.add(manzana)
     }
 
+    method instanciarSandia() {
+        var sandia = new Sandia()
+        game.addVisual(sandia)
+        instancias.add(sandia)
+    }
+
+    method instanciarZanahoria() {
+        var zanahoria = new Zanahoria()
+        game.addVisual(zanahoria)
+        instancias.add(zanahoria)
+    }
+
+    method instanciarAleatorio() {
+        const bloques = [{self.instanciarSandia()}, {self.instanciarZanahoria()}, {self.instanciarManzana()}]
+        bloques.randomize() 
+        bloques.first().apply()
+        console.println(instancias.size())
+    }
 }
