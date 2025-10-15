@@ -53,21 +53,27 @@ class Corazon {
 
 object tiempo { //TERMINAR!!
     var property position = game.at (123, 68)
-    var property segundos = 0
-    var property minutos = segundos.div(60)
-    method text () = " " + minutos + ":" + segundos
-    method transcurrir(){
-        if (minutos != 3 && segundos < 60){
-            segundos += 1
-            minutos = segundos.div(60)
-        }
-        else if (minutos != 3){
-            segundos = 0
-        }
-        else{
-            game.stop()
-        }
+    var property segundos = 180
+
+    method minutos() = segundos.div(60) 
+    method segundos() = segundos - (self.minutos() * 60)
+    method text () = " " + self.minutos() + ":" + self.segundos()
+
+    method transcurrir() {
+      if(segundos == 0){
+        game.removeTickEvent("spawn comidas")
+        game.removeTickEvent("gravedad comida")
+        game.removeTickEvent("gravedad molly")
+        game.removeTickEvent("tiempo")
+        game.addVisual(final)
+      } else {
+        segundos -= 1
+      }
     }
+}
+
+object final {
+  method text() = "juego terminado, tus puntos son " + molly.puntos()
 }
 
 

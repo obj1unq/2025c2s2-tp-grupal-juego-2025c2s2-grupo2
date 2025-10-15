@@ -14,17 +14,17 @@ program Game {
     game.addVisual(puntaje)
     game.addVisual(tiempo)
 
-    const vida1 = new Corazon(position = game.at(game.width()/2+10, game.height()-7)) // Corazon de la izquierda
-    const vida2 = new Corazon(position = game.at(game.width()/2, game.height()-7))    // Corazon del medio
-    const vida3 = new Corazon(position = game.at(game.width()/2-10, game.height()-7)) // Corazon de la derecha
+    const vida1 = new Corazon(position = game.at(game.width()/2+10, game.height()-7), estaFeliz = true) // Corazon de la izquierda
+    const vida2 = new Corazon(position = game.at(game.width()/2, game.height()-7), estaFeliz = true)    // Corazon del medio
+    const vida3 = new Corazon(position = game.at(game.width()/2-10, game.height()-7), estaFeliz = false) // Corazon de la derecha
     
     molly.vidas([vida1,vida2,vida3])
     molly.vidas().forEach({vida => game.addVisual(vida)})
 
     game.onTick(2000, "spawn comidas", {spawner.instanciarAleatorio()})
     game.onTick(100, "gravedad comida", {spawner.instancias().forEach({unaComida => unaComida.descender()})})
-
     game.onTick(100, "gravedad molly", {molly.descender()})
+    game.onTick(1000, "tiempo", {tiempo.transcurrir()})
     
     keyboard.up().onPressDo({molly.saltar()})
     keyboard.left().onPressDo({molly.moverse(izq)})
