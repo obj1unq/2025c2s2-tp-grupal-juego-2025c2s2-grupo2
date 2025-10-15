@@ -5,41 +5,32 @@ import comidas.*
 import bomba.*
 
 program Game {
-	game.title("patoJuego") 	//Valor por defecto "Wollok Game"
-	game.width(126.2) 			//valor por defecto 5
-	game.height(70.2) 		    //valor por defecto 5
-	game.cellSize(10) 		    //valor por defecto 50
-	//search assets in assets folder, for example, for the background
-	//Valor por defecto game.ground("ground.png")
-	//game.boardGround("fondo.png")
+	game.title("patoJuego")
+	game.width(126.2) 	
+	game.height(70.2) 	
+	game.cellSize(10) 		    
     game.addVisual(molly)
+    game.addVisual(marcoPuntaje)
+    game.addVisual(puntaje)
+    game.addVisual(tiempo)
 
-    game.onTick(2000, "spawn comidas", {spawner.instanciar()
-    game.addVisual(variasComidas.last())})
-    //game.onTick(2000, "Instancias", {variasComidas.forEach({comida => game.addVisual(comida)})})
-
-
-    game.onTick(100, "gravedad", {variasComidas.forEach({comida => comida.descender()})})
-
-    game.onTick(1000, "gravedad molly", {molly.descender()})
+    const vida1 = new Corazon(position = game.at(game.width()/2+10, game.height()-7)) // Corazon de la izquierda
+    const vida2 = new Corazon(position = game.at(game.width()/2, game.height()-7))    // Corazon del medio
+    const vida3 = new Corazon(position = game.at(game.width()/2-10, game.height()-7)) // Corazon de la derecha
     
-    game.onTick(50, "estaLevantandoUnaCaja", {
-        variasComidas.filter({comida => comida.estaSiendoLevantada()})
-                    .forEach({comida =>
-                        comida.position(game.at(
-                            comida.agarradaPor().position().x(),
-                            comida.agarradaPor().position().y() + 5
-                        ))
-                    })
-    })
+    molly.vidas([vida1,vida2,vida3])
+    molly.vidas().forEach({vida => game.addVisual(vida)})
+
+    game.onTick(2000, "spawn comidas", {spawner.instanciarAleatorio()})
+    game.onTick(100, "gravedad comida", {spawner.instancias().forEach({unaComida => unaComida.descender()})})
+
+    game.onTick(100, "gravedad molly", {molly.descender()})
     
     keyboard.up().onPressDo({molly.saltar()})
-    keyboard.left().onPressDo({molly.moverseIzquierda()})
-    keyboard.right().onPressDo({molly.moverseDerecha()})
-
-    //game.onTick(200, "explosion", {bomba.explotar()})
-
+    keyboard.left().onPressDo({molly.moverse(izq)})
+    keyboard.right().onPressDo({molly.moverse(der)})
     keyboard.z().onPressDo({molly.sostenerCaja()})
+    keyboard.down().onPressDo({molly.soltarCaja()})
     
     game.start()
 }
