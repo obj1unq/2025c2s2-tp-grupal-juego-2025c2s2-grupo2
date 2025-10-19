@@ -1,6 +1,7 @@
 import wollok.mirror.*
 import wollok.game.*
 import molly.*
+import extras.*
 
 class ObjetoDePrueba {
     var property estaSiendoLevantada = false
@@ -24,6 +25,36 @@ class ObjetoDePrueba {
         const objetosDebajo = game.getObjectsIn(pos.down(7))
         if(pos.y() > 0 && objetosDebajo.isEmpty()) {
             pos = pos.down(1)
+        }
+    }
+
+    method lindantesEn(unaDireccion) {
+        var filtrado = game.getObjectsIn(unaDireccion.siguiente(pos))
+        if(filtrado.any({obj => obj.kindName() != self.kindName()})){
+            filtrado.remove(filtrado.find({obj => obj.kindName() != self.kindName()}))
+        }
+        return filtrado
+    }
+
+    method lindantes() {
+        const dir = [arriba,abajo,der,izq]
+        var acumulador = []
+        dir.forEach({aDir => self.agregarSiExiste(acumulador, aDir)})
+        return acumulador
+    }
+
+    method agregarSiExiste(unaLista, unaDireccion) { 
+        var acumulador = []
+        if(not self.lindantesEn(unaDireccion).isEmpty()){
+            unaLista.add(self.lindantesEn(unaDireccion).first())
+        }
+    }
+
+    method explotar() {
+        game.removeVisual(self)
+        const lindantes = self.lindantes()
+        if(not lindantes.isEmpty()){
+            lindantes.forEach({comidas => comidas.explotar()})
         }
     }
 
@@ -56,6 +87,36 @@ class Manzana {
         return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
     }
 
+    method lindantesEn(unaDireccion) {
+        var filtrado = game.getObjectsIn(unaDireccion.siguiente(pos))
+        if(filtrado.any({obj => obj.kindName() != self.kindName()})){
+            filtrado.remove(filtrado.find({obj => obj.kindName() != self.kindName()}))
+        }
+        return filtrado
+    }
+
+    method lindantes() {
+        const dir = [arriba,abajo,der,izq]
+        var acumulador = []
+        dir.forEach({aDir => self.agregarSiExiste(acumulador, aDir)})
+        return acumulador
+    }
+
+    method agregarSiExiste(unaLista, unaDireccion) { 
+        var acumulador = []
+        if(not self.lindantesEn(unaDireccion).isEmpty()){
+            unaLista.add(self.lindantesEn(unaDireccion).first())
+        }
+    }
+
+    method explotar() {
+        game.removeVisual(self)
+        const lindantes = self.lindantes()
+        if(not lindantes.isEmpty()){
+            lindantes.forEach({comidas => comidas.explotar()})
+        }
+    }
+
 }
 
 class Zanahoria {
@@ -84,6 +145,36 @@ class Zanahoria {
 
         return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
     }
+
+    method lindantesEn(unaDireccion) {
+        var filtrado = game.getObjectsIn(unaDireccion.siguiente(pos))
+        if(filtrado.any({obj => obj.kindName() != self.kindName()})){
+            filtrado.remove(filtrado.find({obj => obj.kindName() != self.kindName()}))
+        }
+        return filtrado
+    }
+
+    method lindantes() {
+        const dir = [arriba,abajo,der,izq]
+        var acumulador = []
+        dir.forEach({aDir => self.agregarSiExiste(acumulador, aDir)})
+        return acumulador
+    }
+
+    method agregarSiExiste(unaLista, unaDireccion) { 
+        var acumulador = []
+        if(not self.lindantesEn(unaDireccion).isEmpty()){
+            unaLista.add(self.lindantesEn(unaDireccion).first())
+        }
+    }
+
+    method explotar() {
+        game.removeVisual(self)
+        const lindantes = self.lindantes()
+        if(not lindantes.isEmpty()){
+            lindantes.forEach({comidas => comidas.explotar()})
+        }
+    }
 }
 
 class Sandia {
@@ -111,6 +202,36 @@ class Sandia {
         const rangoMaximo = 126
 
         return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
+    }
+
+    method lindantesEn(unaDireccion) {
+        var filtrado = game.getObjectsIn(unaDireccion.siguiente(pos))
+        if(filtrado.any({obj => obj.kindName() != self.kindName()})){
+            filtrado.remove(filtrado.find({obj => obj.kindName() != self.kindName()}))
+        }
+        return filtrado
+    }
+
+    method lindantes() {
+        const dir = [arriba,abajo,der,izq]
+        var acumulador = []
+        dir.forEach({aDir => self.agregarSiExiste(acumulador, aDir)})
+        return acumulador
+    }
+
+    method agregarSiExiste(unaLista, unaDireccion) { 
+        var acumulador = []
+        if(not self.lindantesEn(unaDireccion).isEmpty()){
+            unaLista.add(self.lindantesEn(unaDireccion).first())
+        }
+    }
+
+    method explotar() {
+        game.removeVisual(self)
+        const lindantes = self.lindantes()
+        if(not lindantes.isEmpty()){
+            lindantes.forEach({comidas => comidas.explotar()})
+        }
     }
 }
 

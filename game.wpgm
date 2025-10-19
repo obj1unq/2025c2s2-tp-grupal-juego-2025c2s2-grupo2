@@ -6,8 +6,8 @@ import bomba.*
 
 program Game {
 	game.title("patoJuego")
-	game.width(126.2) 	
-	game.height(70.2) 	
+	game.width(126) 	
+	game.height(70) 	
 	game.cellSize(10) 		    
     game.addVisual(molly)
     game.addVisual(marcoPuntaje)
@@ -31,6 +31,12 @@ program Game {
     keyboard.right().onPressDo({molly.moverse(der)})
     keyboard.z().onPressDo({molly.sostenerCaja()})
     keyboard.down().onPressDo({molly.soltarCaja()})
+
+    //Testiando la explosion en cadena
+    game.addVisual(unaManzana)
+    keyboard.space().onPressDo({unaManzana.explotar()})
     
     game.start()
 }
+// Manzana de testeo nomas
+const unaManzana = new Sandia(pos = game.at(14, 0))
