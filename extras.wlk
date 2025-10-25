@@ -2,11 +2,6 @@ import wollok.game.*
 import molly.*
 import comidas.*
 
-object piso {
-    var property position = game.at(0, 0)
-    var property image = "piso.png" 
-}
-
 object izq {
     method nombreDir() {
         return "izq"
@@ -31,70 +26,66 @@ object der {
     }
 }
 
-class Hitbox {
-    var property x1 = 0
-    var property y1 = 0
-    var property x2 = 0
-    var property y2 = 0
-
-    method colisionaCon(otraHitbox) {
-        return self.x1() < otraHitbox.x2() and
-               self.x2() > otraHitbox.x1() and
-               self.y1() < otraHitbox.y2() and
-               self.y2() > otraHitbox.y1()
+object arriba {
+    method siguiente(position){
+        return position.up(7)
     }
 }
 
-object celdas {
-    method verificarMovimientoMolly(nuevaPosicion, direccion) {
-        const offset = if (direccion == "derecha") 10 else 0
+object abajo {
+    method siguiente(position){
+        return position.down(7)
+    }
+}
 
-        // Definir la hitbox de Molly en la nueva posición
-        const mollyBox = new Hitbox(
-            x1 = nuevaPosicion.x() + offset, 
-            y1 = nuevaPosicion.y(), 
-            x2 = nuevaPosicion.x() + 10 + offset,
-            y2 = nuevaPosicion.y() + 10
-        )
+object puntaje {
+   var property position = game.at(4, 68)
+   method text () = "PUNTOS:" + " " + molly.puntos()
+}
 
-        // Verificar si hay colisiones con alguna comida
-        if (variasComidas.any({comida =>
-            const comidaBox = new Hitbox(x1 = comida.position().x(),
-            y1 = comida.position().y(),
-            x2 = comida.position().x() + 10,
-            y2 = comida.position().y() + 10)
-            mollyBox.colisionaCon(comidaBox)
-        })) {
-            self.error("error")  // Hay colisión, no se puede mover
+object marcoPuntaje {
+    var property position = game.at(4, 65)
+    method image() = "marquito.png"
+}
+
+class Corazon {
+    var property position = null
+    const estaFeliz = null
+
+    method image(){
+        if (estaFeliz){
+            return "corazoncitofeliz.png"
+        }
+        else{
+            return "corazoncitotrite.png"
         }
     }
 
-    method puedeMoverCaja(caja, direccion) {
-        const nuevaX = if (direccion == "der") caja.position().x() + caja.velocidad() else caja.position().x() - caja.velocidad()
-        const nuevaPos = game.at(nuevaX, caja.position().y())
+}
 
-        // Chequea si toca bordes
-        if (nuevaX <= 0 or nuevaX >= game.width() - 10) return false
+object tiempo { //TERMINAR!!
+    var property position = game.at (123, 68)
+    var property segundos = 180
 
-        // Chequea colisión con otras comidas
-        return not (variasComidas.any({ otra =>
-            if (otra != caja) {
-                const cajaBox = new Hitbox(
-                    x1 = nuevaPos.x(),
-                    y1 = nuevaPos.y(),
-                    x2 = nuevaPos.x() + 10,
-                    y2 = nuevaPos.y() + 10
-                )
-                const otraBox = new Hitbox(
-                    x1 = otra.position().x(),
-                    y1 = otra.position().y(),
-                    x2 = otra.position().x() + 10,
-                    y2 = otra.position().y() + 10
-                )
-                cajaBox.colisionaCon(otraBox)
-            } else false
-        }))
+    method minutos() = segundos.div(60) 
+    method segundos() = segundos - (self.minutos() * 60)
+    method text () = " " + self.minutos() + ":" + self.segundos()
+
+    method transcurrir() {
+      if(segundos == 0){
+        game.removeTickEvent("spawn comidas")
+        game.removeTickEvent("gravedad comida")
+        game.removeTickEvent("gravedad molly")
+        game.removeTickEvent("tiempo")
+        game.addVisual(final)
+      } else {
+        segundos -= 1
+      }
     }
+}
+
+object final {
+  method text() = "juego terminado, tus puntos son " + molly.puntos()
 }
 
 
