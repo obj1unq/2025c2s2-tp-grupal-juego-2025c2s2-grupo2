@@ -11,7 +11,7 @@ object molly {
     var property cajaLevantada = null 
     
     method image() = "molly-" + mirandoA.nombreDir() + ".png"
-
+    
     method sostenerCaja() {
         const px = self.position().x()
         const py = self.position().y()
