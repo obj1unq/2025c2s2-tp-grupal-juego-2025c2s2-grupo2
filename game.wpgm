@@ -6,8 +6,8 @@ import bomba.*
 
 program Game {
 	game.title("patoJuego")
-	game.width(126.2) 	
-	game.height(70.2) 	
+	game.width(126) 	
+	game.height(70) 	
 	game.cellSize(10) 		    
     game.addVisual(molly)
 
