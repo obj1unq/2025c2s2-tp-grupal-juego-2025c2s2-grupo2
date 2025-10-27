@@ -1,0 +1,37 @@
+import extras.*
+import comidas.*
+import wollok.game.*
+
+
+describe "Reaccion en cadena explisiva de las comidas" {
+    
+    //Referencia para poder testear la explosion en cadena
+    const primeraManzana = new Manzana(pos = game.at(7, 7))
+
+    method initialize() {
+        game.addVisual(primeraManzana)
+        game.addVisual(new Sandia(pos = game.at(7, 0)))     //Abj
+        game.addVisual(new Manzana(pos = game.at(7, 14)))   //Arr Mismo Tipo
+        game.addVisual(new Manzana(pos = game.at(7, 21)))   //Arr Mismo Tipo
+        game.addVisual(new Manzana(pos = game.at(7, 28)))   //Arr Mismo Tipo
+        game.addVisual(new Zanahoria(pos = game.at(14, 7))) //Der
+        game.addVisual(new Manzana(pos = game.at(0, 7)))    //Izq Mismo Tipo
+
+    }
+  
+    test "Lindantes a la manzana" {
+        assert.that(not primeraManzana.lindantes().isEmpty())
+    }
+
+    test "Reaccion en cadena de destruccion" {
+
+        primeraManzana.explotar()
+        assert.that(not game.getObjectsIn(game.at(7,0)).isEmpty())
+        assert.that(game.getObjectsIn(game.at(7,14)).isEmpty()) //Fila Hor1
+        assert.that(game.getObjectsIn(game.at(7,21)).isEmpty()) //Fila Hor2
+        assert.that(game.getObjectsIn(game.at(7,28)).isEmpty()) //Fila Hor3
+        assert.that(not game.getObjectsIn(game.at(14,7)).isEmpty())
+        assert.that(game.getObjectsIn(game.at(0,7)).isEmpty())
+
+    }
+}
