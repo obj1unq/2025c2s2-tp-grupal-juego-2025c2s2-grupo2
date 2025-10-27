@@ -21,22 +21,27 @@ program Game {
     molly.vidas([vida1,vida2,vida3])
     molly.vidas().forEach({vida => game.addVisual(vida)})
 
-    game.onTick(2000, "spawn comidas", {spawner.instanciarAleatorio()})
+    game.onTick(5000, "spawn comidas", {spawner.instanciarAleatorio()})
     game.onTick(100, "gravedad comida", {spawner.instancias().forEach({unaComida => unaComida.descender()})})
     game.onTick(100, "gravedad molly", {molly.descender()})
     game.onTick(1000, "tiempo", {tiempo.transcurrir()})
+    game.onTick(100, "lanzar", {molly.lanzandoCaja()})
     
     keyboard.up().onPressDo({molly.saltar()})
     keyboard.left().onPressDo({molly.moverse(izq)})
     keyboard.right().onPressDo({molly.moverse(der)})
     keyboard.z().onPressDo({molly.sostenerCaja()})
     keyboard.down().onPressDo({molly.soltarCaja()})
-
-    //Testiando la explosion en cadena
+    keyboard.space().onPressDo({molly.lanzarCaja()})
+/*
     game.addVisual(unaManzana)
-    keyboard.space().onPressDo({unaManzana.explotar()})
-    
+    game.addVisual(otraManzana)
+    game.addVisual(finalManzana)
+*/
     game.start()
 }
-// Manzana de testeo nomas
-const unaManzana = new Sandia(pos = game.at(14, 0))
+/*
+const unaManzana = new Manzana(pos = game.at(14, 0))
+const otraManzana = new Manzana(pos = game.at(70, 0))
+const finalManzana = new Manzana(pos = game.at(21, 0))
+*/

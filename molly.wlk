@@ -7,7 +7,9 @@ object molly {
     var property position = game.at(0, 0)
     var property vidas = []
     var property puntos = 0
-    var comidaLevantada = null
+    var property comidaLevantada = null
+    var property lanzandoComida = false
+    var property apuntar = null
     
     method image() = "molly-" + mirandoA.nombreDir() + ".png"
 
@@ -35,13 +37,21 @@ object molly {
         
     }
 
-    method lanzarCaja() {
-        if (cajaLevantada != null) {
-            cajaLevantada.lanzar(mirandoA)
-            cajaLevantada = null
+    method lanzandoCaja() {
+        if(lanzandoComida){
+            comidaLevantada.lanzar(apuntar)
         }
     }
 
+    method lanzarCaja() {
+        if (comidaLevantada != null) {
+            lanzandoComida = true
+            comidaLevantada.estaSiendoLevantada(false)
+            comidaLevantada.pos(position)
+            apuntar = mirandoA
+            self.lanzandoCaja()
+        }
+    }
 
     method moverse(direccion) {
         mirandoA = direccion // Cambia el sprite de molly hacia la direccion donde se mueve

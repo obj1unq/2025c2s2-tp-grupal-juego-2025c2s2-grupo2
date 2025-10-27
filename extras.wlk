@@ -63,7 +63,7 @@ class Corazon {
 
 }
 
-object tiempo { //TERMINAR!!
+object tiempo {
     var property position = game.at (123, 68)
     var property segundos = 180
 
