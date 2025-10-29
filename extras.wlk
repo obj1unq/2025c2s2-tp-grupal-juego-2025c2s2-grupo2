@@ -26,6 +26,18 @@ object der {
     }
 }
 
+object arriba {
+    method siguiente(position){
+        return position.up(7)
+    }
+}
+
+object abajo {
+    method siguiente(position){
+        return position.down(7)
+    }
+}
+
 object puntaje {
    var property position = game.at(4, 68)
    method text () = "PUNTOS:" + " " + molly.puntos()
@@ -51,7 +63,7 @@ class Corazon {
 
 }
 
-object tiempo { //TERMINAR!!
+object tiempo {
     var property position = game.at (123, 68)
     var property segundos = 180
 

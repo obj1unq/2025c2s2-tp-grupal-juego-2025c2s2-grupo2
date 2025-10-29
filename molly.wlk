@@ -7,7 +7,9 @@ object molly {
     var property position = game.at(0, 0)
     var property vidas = []
     var property puntos = 0
-    var comidaLevantada = null
+    var property comidaLevantada = null
+    var property lanzandoComida = false
+    var property apuntar = null
     
     method image() = "molly-" + mirandoA.nombreDir() + ".png"
 
@@ -33,6 +35,22 @@ object molly {
         comidaLevantada.pos(position)
         position = position.up(7)
         
+    }
+
+    method lanzandoCaja() {
+        if(lanzandoComida){
+            comidaLevantada.lanzar(apuntar)
+        }
+    }
+
+    method lanzarCaja() {
+        if (comidaLevantada != null) {
+            lanzandoComida = true
+            comidaLevantada.estaSiendoLevantada(false)
+            comidaLevantada.pos(position)
+            apuntar = mirandoA
+            self.lanzandoCaja()
+        }
     }
 
     method moverse(direccion) {

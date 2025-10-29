@@ -6,8 +6,8 @@ import bomba.*
 
 program Game {
 	game.title("patoJuego")
-	game.width(126.2) 	
-	game.height(70.2) 	
+	game.width(126) 	
+	game.height(70) 	
 	game.cellSize(10) 		    
     game.addVisual(molly)
     game.addVisual(marcoPuntaje)
@@ -25,12 +25,23 @@ program Game {
     game.onTick(100, "gravedad comida", {spawner.instancias().forEach({unaComida => unaComida.descender()})})
     game.onTick(100, "gravedad molly", {molly.descender()})
     game.onTick(1000, "tiempo", {tiempo.transcurrir()})
+    game.onTick(100, "lanzar", {molly.lanzandoCaja()})
     
     keyboard.up().onPressDo({molly.saltar()})
     keyboard.left().onPressDo({molly.moverse(izq)})
     keyboard.right().onPressDo({molly.moverse(der)})
     keyboard.z().onPressDo({molly.sostenerCaja()})
     keyboard.down().onPressDo({molly.soltarCaja()})
-    
+    keyboard.space().onPressDo({molly.lanzarCaja()})
+/*
+    game.addVisual(unaManzana)
+    game.addVisual(otraManzana)
+    game.addVisual(finalManzana)
+*/
     game.start()
 }
+/*
+const unaManzana = new Manzana(pos = game.at(14, 0))
+const otraManzana = new Manzana(pos = game.at(70, 0))
+const finalManzana = new Manzana(pos = game.at(21, 0))
+*/
