@@ -21,7 +21,7 @@ program Game {
     molly.vidas([vida1,vida2,vida3])
     molly.vidas().forEach({vida => game.addVisual(vida)})
 
-    game.onTick(2000, "spawn comidas", {spawner.instanciarAleatorio()})
+    game.onTick(5000, "spawn comidas", {spawner.instanciarAleatorio()})
     game.onTick(100, "gravedad comida", {spawner.instancias().forEach({unaComida => unaComida.descender()})})
     game.onTick(100, "gravedad molly", {molly.descender()})
     game.onTick(1000, "tiempo", {tiempo.transcurrir()})

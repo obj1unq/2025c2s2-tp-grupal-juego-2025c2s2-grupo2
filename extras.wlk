@@ -73,7 +73,8 @@ object tiempo { //TERMINAR!!
 }
 
 object final {
-  method text() = "juego terminado, tus puntos son " + molly.puntos()
+    var property position = game.center()  
+    method text() = "juego terminado, tus puntos son " + molly.puntos()
 }
 
 
