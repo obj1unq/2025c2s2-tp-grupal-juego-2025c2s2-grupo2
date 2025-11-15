@@ -80,4 +80,8 @@ object molly {
             position = position.down(1)
         }
     }
+
+    method aumentarPuntaje(cantidad) {
+        puntos = puntos + cantidad
+    }
 }
