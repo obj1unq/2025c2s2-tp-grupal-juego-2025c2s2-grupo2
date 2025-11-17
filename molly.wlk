@@ -3,13 +3,13 @@ import extras.*
 import comidas.*
 
 object molly {
-    var property mirandoA = der
+    var property mirandoA = der //para cambiar imagen dependiendo a donde este mirando cuando se mueve derecha o izquierda
     var property position = game.at(0, 0)
     var property vidas = []
     var property puntos = 0
     var property comidaLevantada = null
     var property lanzandoComida = false
-    var property apuntar = null
+    var property apuntar = null //direccion (es preferible usar la variable de mirandoA q ya tiene der o izq)
     
     method image() = "molly-" + mirandoA.nombreDir() + ".png"
 
@@ -18,28 +18,28 @@ object molly {
     }
 
     method sostenerCaja() {
-        if(der.estaMirandoMolly()){
-            comidaLevantada = game.getObjectsIn(position.right(7)).first()
+        if(der.estaMirandoMolly()){ // molly esta mirando a la comida de la der
+            comidaLevantada = game.getObjectsIn(position.right(7)).first() //agarra la comida en la posicion 
             comidaLevantada.estaSiendoLevantada(true)
         }
-        else {  
+        else {  //molly esta mirando a la comida de la izq
             comidaLevantada = game.getObjectsIn(position.left(7)).first()
             comidaLevantada.estaSiendoLevantada(true)
         }
 
     }
 
-    method soltarCaja() {
-        comidaLevantada = game.getObjectsIn(position.up(7)).first()
-        comidaLevantada.estaSiendoLevantada(false)
-        comidaLevantada.pos(position)
-        position = position.up(7)
+    method soltarCaja() { //en la posicion donde esta molly 
+        comidaLevantada = game.getObjectsIn(position.up(7)).first() //a discutir
+        comidaLevantada.estaSiendoLevantada(false) //la comida deja de ser levantada
+        comidaLevantada.pos(position) // cambia la posicion de la comida por la posicion de molly
+        position = position.up(7) // molly queda arriba de la comida
         
     }
 
     method lanzandoCaja() {
-        if(lanzandoComida){
-            comidaLevantada.lanzar(apuntar)
+        if(lanzandoComida){ 
+            comidaLevantada.lanzar(apuntar) //apuntar = mirandoA ?
         }
     }
 
@@ -70,13 +70,13 @@ object molly {
     }
 
     method saltar() {
-        if (position.y() == 0 || not game.getObjectsIn(position.down(7)).isEmpty() )
+        if (position.y() == 0 || not game.getObjectsIn(position.down(7)).isEmpty() ) //solo salta si esta en el piso o si esta arriba de una comida
           {position = position.up(10)}
     }
 
     method descender() {
        const objetosDebajo = game.getObjectsIn(position.down(7))
-        if (position.y() > 0 && objetosDebajo.isEmpty()) {
+        if (position.y() > 0 && objetosDebajo.isEmpty()) { //deciende no esta en el piso y si no tiene nada abajo
             position = position.down(1)
         }
     }

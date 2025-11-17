@@ -9,8 +9,8 @@ class Comida {
     var property estaSiendoLevantada = false
 
     method position() {
-        if (estaSiendoLevantada)
-            {return game.at(molly.position().x(), molly.position().y() + 7)}
+        if (estaSiendoLevantada) 
+            {return game.at(molly.position().x(), molly.position().y() + 7)} // 7 son los pixeles q ocupa la celda
         else {return pos}
     }
 
@@ -18,15 +18,15 @@ class Comida {
 
     method puntos()
 
-    method descender() {  //Usar OnTick, va a caer gradualmente
+    method descender() { 
         const objetosDebajo = game.getObjectsIn(pos.down(7))
-        if(pos.y() > 0 && objetosDebajo.isEmpty()) {
+        if(pos.y() > 0 && objetosDebajo.isEmpty()) { //misma condicion q molly
             pos = pos.down(1)
         }
     }
 
-    method mover(unaDireccion){
-        if (unaDireccion.nombreDir() == "der"){
+    method mover(unaDireccion){ //solo se puede mover derecha o izq
+        if (unaDireccion.nombreDir() == "der"){ 
             pos = pos.right(1)
         }
         else{
@@ -36,10 +36,10 @@ class Comida {
 
     method lanzar(unaDireccion) {
         if (self.lindantesEn(unaDireccion).isEmpty()){
-            self.validarMoverse(unaDireccion)
+            self.validarMoverse(unaDireccion) 
             self.mover(unaDireccion)
         } else {
-            self.lindantesEn(unaDireccion).first().explotar()
+            self.lindantesEn(unaDireccion).first().explotar() 
             molly.lanzandoComida(false)
             molly.comidaLevantada(null)
         }
@@ -62,8 +62,8 @@ class Comida {
     }
 
     method lindantesEn(unaDireccion) {
-        const filtrado = game.getObjectsIn(unaDireccion.siguiente(pos))
-        if(filtrado.any({obj => obj.kindName() != self.kindName()})){
+        const filtrado = game.getObjectsIn(unaDireccion.siguiente(pos)) // devuelve la comida que se encuentra en la direccion dada por parametro
+        if(filtrado.any({obj => obj.kindName() != self.kindName()} 
             filtrado.remove(filtrado.find({obj => obj.kindName() != self.kindName()}))
         }
         return filtrado
