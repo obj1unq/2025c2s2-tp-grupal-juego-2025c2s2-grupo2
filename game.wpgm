@@ -1,47 +1,13 @@
 import wollok.game.*
-import molly.*
-import extras.*
-import comidas.*
-import bomba.*
+import escenas.*
 
 program Game {
 	game.title("patoJuego")
 	game.width(126) 	
 	game.height(70) 	
 	game.cellSize(10) 		    
-    game.addVisual(molly)
-    game.addVisual(marcoPuntaje)
-    game.addVisual(puntaje)
-    game.addVisual(tiempo)
+   
+    escPantallaInicio.iniciar()
 
-    const vida1 = new Corazon(position = game.at(game.width()/2+10, game.height()-7), estaFeliz = true) // Corazon de la izquierda
-    const vida2 = new Corazon(position = game.at(game.width()/2, game.height()-7), estaFeliz = true)    // Corazon del medio
-    const vida3 = new Corazon(position = game.at(game.width()/2-10, game.height()-7), estaFeliz = false) // Corazon de la derecha
-    
-    molly.vidas([vida1,vida2,vida3])
-    molly.vidas().forEach({vida => game.addVisual(vida)})
-
-    game.onTick(5000, "spawn comidas", {spawner.instanciarAleatorio()})
-    game.onTick(100, "gravedad comida", {spawner.instancias().forEach({unaComida => unaComida.descender()})})
-    game.onTick(100, "gravedad molly", {molly.descender()})
-    game.onTick(1000, "tiempo", {tiempo.transcurrir()})
-    game.onTick(100, "lanzar", {molly.lanzandoCaja()})
-    
-    keyboard.up().onPressDo({molly.saltar()})
-    keyboard.left().onPressDo({molly.moverse(izq)})
-    keyboard.right().onPressDo({molly.moverse(der)})
-    keyboard.z().onPressDo({molly.sostenerCaja()})
-    keyboard.down().onPressDo({molly.soltarCaja()})
-    keyboard.space().onPressDo({molly.lanzarCaja()})
-/*
-    game.addVisual(unaManzana)
-    game.addVisual(otraManzana)
-    game.addVisual(finalManzana)
-*/
     game.start()
 }
-/*
-const unaManzana = new Manzana(pos = game.at(14, 0))
-const otraManzana = new Manzana(pos = game.at(70, 0))
-const finalManzana = new Manzana(pos = game.at(21, 0))
-*/

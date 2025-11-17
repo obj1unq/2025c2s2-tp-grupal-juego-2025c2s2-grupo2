@@ -39,7 +39,7 @@ object abajo {
 }
 
 object puntaje {
-   var property position = game.at(4, 68)
+   var property position = game.at(8, 66)
    method text () = "PUNTOS:" + " " + molly.puntos()
 }
 
