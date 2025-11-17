@@ -1,6 +1,8 @@
 import wollok.game.*
 import molly.*
 import comidas.*
+import escenas.*
+
 
 object izq {
     method nombreDir() {
@@ -73,11 +75,7 @@ object tiempo {
 
     method transcurrir() {
       if(segundos == 0){
-        game.removeTickEvent("spawn comidas")
-        game.removeTickEvent("gravedad comida")
-        game.removeTickEvent("gravedad molly")
-        game.removeTickEvent("tiempo")
-        game.addVisual(final)
+        escPrincipal.siguienteEscena(escFinal)
       } else {
         segundos -= 1
       }
