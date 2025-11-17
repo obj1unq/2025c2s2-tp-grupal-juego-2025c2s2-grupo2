@@ -30,14 +30,14 @@ object molly {
     }
 
     method soltarCaja() { //en la posicion donde esta molly 
-        comidaLevantada = game.getObjectsIn(position.up(7)).first() //a discutir
+        comidaLevantada = game.getObjectsIn(position.up(7)).first() //a discutir.. no es necesario xq es lo mismo
         comidaLevantada.estaSiendoLevantada(false) //la comida deja de ser levantada
         comidaLevantada.pos(position) // cambia la posicion de la comida por la posicion de molly
         position = position.up(7) // molly queda arriba de la comida
         
     }
 
-    method lanzandoCaja() {
+    method lanzandoCaja() { // cambiar nombre, es el evento que desliza la caja
         if(lanzandoComida){ 
             comidaLevantada.lanzar(apuntar) //apuntar = mirandoA ?
         }
@@ -48,7 +48,7 @@ object molly {
             lanzandoComida = true
             comidaLevantada.estaSiendoLevantada(false)
             comidaLevantada.pos(position)
-            apuntar = mirandoA
+            apuntar = mirandoA  // a discutir... tiene mas sentido que apuntar sea mirandoA 
             self.lanzandoCaja()
         }
     }
@@ -76,7 +76,7 @@ object molly {
 
     method descender() {
        const objetosDebajo = game.getObjectsIn(position.down(7))
-        if (position.y() > 0 && objetosDebajo.isEmpty()) { //deciende no esta en el piso y si no tiene nada abajo
+        if (position.y() > 0 && objetosDebajo.isEmpty()) { //desciende si no esta en el piso y si no tiene nada abajo
             position = position.down(1)
         }
     }
