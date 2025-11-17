@@ -84,4 +84,20 @@ object molly {
     method aumentarPuntaje(cantidad) {
         puntos = puntos + cantidad
     }
+
+    method recibirDaño() {
+        self.validarRecibirDaño()
+        const vidaActual = vidas.find({cor => cor.estaFeliz()})
+        vidaActual.cambiarEstado()
+        console.println(vidas.size())
+    }
+
+    method validarRecibirDaño() {
+        if(vidas.isEmpty()){
+            self.error("No existen vidas")
+        }
+        if(vidas.all({cor => !cor.estaFeliz()})){
+            self.error("No quedan vidas que perder")
+        }
+    }
 }

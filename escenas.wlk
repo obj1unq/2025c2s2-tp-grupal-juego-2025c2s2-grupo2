@@ -22,6 +22,7 @@ class Escena {
     method ejecutar() {
         eventos.forEach({com => com.ejecutar()})
         controles.forEach({com => com.apply()})
+        molly.vidas([vida1,vida2,vida3])
     }
 
     method limpiar() {
@@ -52,7 +53,8 @@ class Evento {
 
 const vida1 = new Corazon(position = game.at(126/2+10, 70-7), estaFeliz = true) // Corazon de la izquierda
 const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    // Corazon del medio
-const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = false) // Corazon de la derecha
+const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = true) // Corazon de la derecha
+
 
 
 const menu = new Corazon(position = game.at(126/2, 35), estaFeliz = true)    // Corazon prueba de escenas
@@ -84,8 +86,14 @@ const lanzar = new Evento(
     nombreDelEvento = "lanzar",
     comando = {molly.lanzandoCaja()})
 
-const eventoFinal = new Evento(
+const asignarVidas = new Evento(
     tiempo = 0,
+    nombreDelEvento = "asignarVidas",
+    comando = {molly.vidas([vida1,vida2,vida3])}
+) 
+
+const eventoFinal = new Evento(
+    tiempo = 1,
     nombreDelEvento = "final",
     comando = {
         game.removeTickEvent("spawn comidas")
@@ -93,6 +101,8 @@ const eventoFinal = new Evento(
         game.removeTickEvent("gravedad molly")
         game.removeTickEvent("tiempo")
         game.addVisual(final)}
+
+
 )
 
 //Creando la escena jugable 
@@ -111,7 +121,8 @@ const escPrincipal = new Escena(
         gravedadComida,
         gravedadMolly,
         cronometro,
-        lanzar
+        lanzar,
+        envenenada
     ],
     controles = [
         {keyboard.up().onPressDo({molly.saltar()})},
@@ -138,4 +149,10 @@ const escFinal = new Escena(
     visuales = [],
     eventos = [eventoFinal],
     controles = []
+)
+
+const envenenada = new Evento(
+    tiempo = 5000,
+    nombreDelEvento = "envenenada",
+    comando = {molly.recibirDaño()}
 )

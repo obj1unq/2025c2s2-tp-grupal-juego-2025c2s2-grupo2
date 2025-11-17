@@ -1,5 +1,7 @@
 import wollok.game.*
 import escenas.*
+import molly.*
+
 
 program Game {
 	game.title("patoJuego")
@@ -8,6 +10,7 @@ program Game {
 	game.cellSize(10) 		    
    
     escPantallaInicio.iniciar()
+	
 
     game.start()
 }
