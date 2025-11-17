@@ -84,6 +84,16 @@ const lanzar = new Evento(
     nombreDelEvento = "lanzar",
     comando = {molly.lanzandoCaja()})
 
+const eventoFinal = new Evento(
+    tiempo = 0,
+    nombreDelEvento = "final",
+    comando = {
+        game.removeTickEvent("spawn comidas")
+        game.removeTickEvent("gravedad comida")
+        game.removeTickEvent("gravedad molly")
+        game.removeTickEvent("tiempo")
+        game.addVisual(final)}
+)
 
 //Creando la escena jugable 
 const escPrincipal = new Escena(
@@ -113,6 +123,7 @@ const escPrincipal = new Escena(
     ]
 )
 
+
 //Creando escena de pantalla principal
 const escPantallaInicio = new Escena(
     visuales = [menu],
@@ -121,4 +132,10 @@ const escPantallaInicio = new Escena(
         {keyboard.enter().onPressDo(
         {escPantallaInicio.siguienteEscena(escPrincipal)})}
     ]
+)
+
+const escFinal = new Escena(
+    visuales = [],
+    eventos = [eventoFinal],
+    controles = []
 )
