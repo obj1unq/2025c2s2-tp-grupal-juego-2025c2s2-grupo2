@@ -5,7 +5,7 @@ import molly.*
 import extras.*
 
 class Comida {
-    var property pos = game.at(self.posX(), 70)
+    var property pos = game.at(self.posX(), 56)
     var property agarradaPor = null
     var property estaSiendoLevantada = false
 
