@@ -61,12 +61,19 @@ object molly {
 
 
     method validarMoverse(direccion) {
-        const bordeIzq = self.position().x() == 0 && izq.estaMirandoMolly()                // Indica si la posicion de Molly es la del borde izquierdo y si Molly está mirando para ese borde (es decir, tiene intencion de irse al otro borde)
-        const bordeDer = self.position().x() >= game.width()-10 && der.estaMirandoMolly()  // Lo mismo que arriba. Que sea mayor o igual al game width-10 significa el borde derecho (el 10 por el tamaño de celda)
+        self.validarSalirBordes(direccion)
         const objetoDir = game.getObjectsIn(direccion.siguiente(position))                 // Me da lista de objetos en la posicion a la que me quiero mover               
-        if (bordeIzq || bordeDer || not objetoDir.isEmpty()){                              // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
-            self.error("")                                                                 // String vacio significa que no se mueve!
+        if (not objetoDir.isEmpty()){ // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
+            self.error("hay un objeto en esa direccion")                                                                 // String vacio significa que no se mueve!
         } 
+    }
+
+    method validarSalirBordes(direccion){
+        const bordeIzq = self.position().x() == 0 && izq.estaMirandoMolly()                
+        const bordeDer = self.position().x() >= game.width()-10 && der.estaMirandoMolly() 
+        if ((bordeIzq && direccion.nombreDir() == "izq") || (bordeDer && direccion.nombreDir() == "der")){                              
+            self.error("no podes salirte del borde")                                                                 
+        }
     }
 
     method saltar() {
