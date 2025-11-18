@@ -18,7 +18,7 @@ class Comida {
 
     method puntos()
 
-    method descender() {  //Usar OnTick, va a caer gradualmente
+    method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
         if(pos.y() > 0 && objetosDebajo.isEmpty()) {
             pos = pos.down(1)

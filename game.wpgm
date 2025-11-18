@@ -1,5 +1,13 @@
-import escenaPrincipio.*
+import wollok.game.*
+import escenas.*
 
-program { 
-    game.setScene(mainScene)
+program Game {
+	game.title("patoJuego")
+	game.width(126) 	
+	game.height(70) 	
+	game.cellSize(10) 		    
+   
+    escPantallaInicio.iniciar()
+
+    game.start()
 }
