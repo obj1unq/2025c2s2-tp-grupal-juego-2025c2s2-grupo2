@@ -7,9 +7,10 @@ import wollok.game.*
 object tablero {
 
     method lindantesEn(unaComida, unaDireccion) { //mismo metodo, solo que hay q pasar unaComida como parametro
-        const filtrado = game.getObjectsIn(unaDireccion.siguiente(unaComida.position()))
-        if (filtrado.any({obj => obj.kindName() != self.kindName()})){ //arreglar
-            filtrado.remove(filtrado.find({obj => obj.kindName() != self.kindName()}))
+        const posicionComida = unaComida.pos()
+        const filtrado = game.getObjectsIn(unaDireccion.siguiente(posicionComida))
+        if (filtrado.any({obj => obj.kindName() != unaComida.kindName()})){          //arreglar
+            filtrado.remove(filtrado.find({obj => obj.kindName() != unaComida.kindName()}))
         }
         return filtrado
     }
@@ -17,7 +18,7 @@ object tablero {
     method lindantes(unaComida) { //mismo metodo, solo que hay q pasar unaComida como parametro 
         const dir = [arriba,abajo,der,izq]
         const acumulador = []
-        dir.forEach({aDir => unaComida.agregarSiExiste(acumulador, unaComida, aDir)})
+        dir.forEach({unaDireccion => self.agregarSiExiste(acumulador, unaDireccion, unaComida)})
         return acumulador
     }
 

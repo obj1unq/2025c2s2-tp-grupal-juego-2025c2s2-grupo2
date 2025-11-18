@@ -57,7 +57,6 @@ class Comida {
         game.removeVisual(self)
         var acumulador = self.puntos()
         const lindantes = tablero.lindantes(self) //delegamos al tablero
-        console.println("hola")
         if(not lindantes.isEmpty()){
             lindantes.forEach({comidas => comidas.explotar()
             acumulador += comidas.puntos()})
