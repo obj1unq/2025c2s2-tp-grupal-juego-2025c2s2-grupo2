@@ -26,7 +26,7 @@ class Comida inherits Elementos{
     }
 
     method explotar() {
-        game.removeVisual(self)
+        spawner.borrarInstancia(self)
         var acumulador = self.puntos()
         const lindantes = tablero.lindantes(self) //delegamos al tablero
         if(not lindantes.isEmpty()){
@@ -70,18 +70,19 @@ class Pincho inherits Elementos{
 
     override method descender() {
         const objetosDebajo = game.getObjectsIn(pos.down(7))
-        if(pos.y() > 0 && objetosDebajo.isEmpty()){
-            pos = pos.down(1)
-        } else if (objetosDebajo.contains(molly)){ //se fija si tiene a molly abajo
+        if (objetosDebajo.contains(molly)){ 
             molly.restarVida() 
-            self.destruir()
-        } else if (pos.y() == 0) { //mejorar 
+            self.destruir()         
+            }
+        if (pos.y() == 0) { 
             self.destruir()
         }
+        if (pos.y() > 0 && objetosDebajo.isEmpty()){
+            pos = pos.down(1) }
     }
 
     method destruir() {
-        game.removeVisual(self)
+        spawner.borrarInstancia(self)
     }
 
 }
@@ -130,5 +131,10 @@ object spawner {
 
     method instanciarAleatorio() {
         self.instaciarComida(tipos.anyOne())
+    }
+
+    method borrarInstancia(instancia) {
+        instancias.remove(instancia)
+        game.removeVisual(instancia)
     }
 }

@@ -6,12 +6,15 @@ import escenas.*
 object molly {
     var property mirandoA = der //para cambiar imagen dependiendo a donde este mirando cuando se mueve derecha o izquierda
     var property position = game.at(0, 0)
-    var property vidas = []
+    var property vidas = [vida1, vida2, vida3]
     var property puntos = 0
     var property comidaLevantada = null
     var property lanzandoComida = false
     var property apuntar = null //direccion (es preferible usar la variable de mirandoA q ya tiene der o izq)
-    
+    const vida1 = new Corazon(position = game.at(126/2+10, 70-7), estaFeliz = true) // Corazon de la izquierda
+    const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    // Corazon del medio
+    const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = true) // Corazon de la derecha
+
     method image() = "molly-" + mirandoA.nombreDir() + ".png"
 
     method vidasRestantes(){
@@ -95,10 +98,10 @@ object molly {
 
     method restarVida() {
         if (vidas.any({vida => vida.estaFeliz()})) {
-             vidas.any({vida => vida.estaFeliz()}).cambiarEstado()
-        } else {
+             vidas.find({vida => vida.estaFeliz()}).cambiarEstado()
+        } 
+        if (vidas.all({vida => !vida.estaFeliz()})) {
             escPrincipal.siguienteEscena(escFinal)
         }
-
     }
 }

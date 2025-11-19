@@ -49,12 +49,6 @@ class Evento {
 
 //-- INSTANCIAS -> -> ->
 
-
-const vida1 = new Corazon(position = game.at(126/2+10, 70-7), estaFeliz = true) // Corazon de la izquierda
-const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    // Corazon del medio
-const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = true) // Corazon de la derecha
-
-
 const menu = object {
     var property position = game.at(0,0)
     method image() = "menuinicio.png"
@@ -98,6 +92,9 @@ const eventoFinal = new Evento(
         game.addVisual(final)
         }
 )
+const vida1 = molly.vidas().get(0)
+const vida2 = molly.vidas().get(1)
+const vida3 = molly.vidas().get(2)
 
 //Creando la escena jugable 
 const escPrincipal = new Escena(
@@ -105,11 +102,8 @@ const escPrincipal = new Escena(
         molly,
         marcoPuntaje,
         puntaje,
-        tiempo,
-        vida1,
-        vida2,
-        vida3
-    ],
+        tiempo
+    ] + molly.vidas(),
     eventos = [
         spawnComidas,
         gravedadComida,

@@ -63,7 +63,7 @@ object marcoPuntaje {
 
 class Corazon {
     var property position
-    var estaFeliz
+    var property estaFeliz 
 
     method image(){
         if (estaFeliz){
