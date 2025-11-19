@@ -3,40 +3,51 @@ import molly.*
 import comidas.*
 import escenas.*
 
+class Direccion {
+    method nombreDir() //se sobreescribe en las direcciones
+    method siguiente(position) //se sobreescribe en las direcciones
+    method estaMirandoMolly(){
+        return molly.mirandoA() == self
+    } //se sobreescribe en las direcciones
+}
 
-object izq {
-    method nombreDir() {
+object izq inherits Direccion {
+    override method nombreDir() {
         return "izq"
     }
-    method siguiente(position){
+    
+    override method siguiente(position){
         return position.left(7)
     }
-    method estaMirandoMolly(){
-        return molly.mirandoA() == self
-    }
 }
 
-object der {
-    method nombreDir() {
+object der inherits Direccion{
+    override method nombreDir() {
         return "der"
     }
-    method siguiente(position){
+
+    override method siguiente(position){
         return position.right(7)
     }
-    method estaMirandoMolly(){
-        return molly.mirandoA() == self
-    }
 }
 
-object arriba {
-    method siguiente(position){
+object arriba inherits Direccion{
+    override method siguiente(position){
         return position.up(7)
     }
+
+    override method nombreDir() {
+        return "arriba"
+    }
 }
 
-object abajo {
-    method siguiente(position){
+object abajo inherits Direccion{
+    override method siguiente(position){
         return position.down(7)
+    }
+
+    override method nombreDir() {
+        return "arriba"
     }
 }
 

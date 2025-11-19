@@ -1,10 +1,11 @@
+import tablero.*
 import wollok.mirror.*
 import wollok.game.*
 import molly.*
 import extras.*
 
 class Comida {
-    var property pos = game.at(self.posX(), 70)
+    var property pos = game.at(self.posX(), 56)
     var property agarradaPor = null
     var property estaSiendoLevantada = false
 
@@ -14,11 +15,11 @@ class Comida {
         else {return pos}
     }
 
-    method image()
+    method image() //se sobreescribe en las comidas
 
-    method puntos()
+    method puntos() //se sobreescribe en las comidas
 
-    method descender() {  //Usar OnTick, va a caer gradualmente
+    method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
         if(pos.y() > 0 && objetosDebajo.isEmpty()) {
             pos = pos.down(1)
@@ -35,23 +36,14 @@ class Comida {
     }
 
     method lanzar(unaDireccion) {
-        if (self.lindantesEn(unaDireccion).isEmpty()){
-            self.validarMoverse(unaDireccion)
+        if (tablero.lindantesEn(self, unaDireccion).isEmpty()){ //delegamos al tablero 
+            tablero.validarMoverse(self, unaDireccion) //delegamos al tablero
             self.mover(unaDireccion)
         } else {
-            self.lindantesEn(unaDireccion).first().explotar()
+            tablero.lindantesEn(self, unaDireccion).first().explotar() //delegamos al tablero
             molly.lanzandoComida(false)
             molly.comidaLevantada(null)
         }
-    }
-
-    method validarMoverse(direccion) {
-        const bordeIzq = self.position().x() == 0                
-        const bordeDer = self.position().x() >= game.width()-10 
-        const objetoDir = game.getObjectsIn(direccion.siguiente(self.position()))                 
-        if (bordeIzq || bordeDer || not objetoDir.isEmpty()){                              
-            self.error("")                                                                 
-        } 
     }
 
     method posX() {
@@ -61,32 +53,10 @@ class Comida {
         return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
     }
 
-    method lindantesEn(unaDireccion) {
-        const filtrado = game.getObjectsIn(unaDireccion.siguiente(pos))
-        if(filtrado.any({obj => obj.kindName() != self.kindName()})){
-            filtrado.remove(filtrado.find({obj => obj.kindName() != self.kindName()}))
-        }
-        return filtrado
-    }
-
-    method lindantes() {
-        const dir = [arriba,abajo,der,izq]
-        const acumulador = []
-        dir.forEach({aDir => self.agregarSiExiste(acumulador, aDir)})
-        return acumulador
-    }
-
-    method agregarSiExiste(unaLista, unaDireccion) { 
-        const acumulador = []
-        if(not self.lindantesEn(unaDireccion).isEmpty()){
-            unaLista.add(self.lindantesEn(unaDireccion).first())
-        }
-    }
-
     method explotar() {
         game.removeVisual(self)
         var acumulador = self.puntos()
-        const lindantes = self.lindantes()
+        const lindantes = tablero.lindantes(self) //delegamos al tablero
         if(not lindantes.isEmpty()){
             lindantes.forEach({comidas => comidas.explotar()
             acumulador += comidas.puntos()})
