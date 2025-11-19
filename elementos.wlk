@@ -7,17 +7,12 @@ import extras.*
 class Comida inherits Elementos{
     var property agarradaPor = null
     var property estaSiendoLevantada = false
-    const property tipo
 
     method position() {
         if (estaSiendoLevantada)
             {return game.at(molly.position().x(), molly.position().y() + 7)}
         else {return pos}
     }
-
-    method image() = tipo.image() //se sobreescribe en las comidas
-
-    method puntos() = tipo.puntos()//se sobreescribe en las comidas
 
     method lanzar(unaDireccion) {
         if (tablero.lindantesEn(self, unaDireccion).isEmpty()){ //delegamos al tablero 
@@ -58,7 +53,7 @@ object sandia inherits TipoDeElemento{
 }
 
 object pincho inherits TipoDeElemento{
-    override method image() = "pinchos.png"
+    override method image() = "pincho.png"
     override method puntos() = 0
     override method instanciar() = new Pincho(tipo = self)
 }
@@ -71,15 +66,15 @@ class TipoDeElemento {
 }
 
 class Pincho inherits Elementos{ 
-    const property tipo
-
     method position() = pos 
-    method image() = tipo.image() //se sobreescribe en las comidas
-    method puntos() = tipo.puntos()//se sobreescribe en las comidas
 }
 
 class Elementos {
     var property pos = game.at(self.posX(), 56)
+    const property tipo
+
+    method image() = tipo.image() //se sobreescribe en las comidas
+    method puntos() = tipo.puntos()
     
     method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
