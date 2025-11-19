@@ -1,16 +1,14 @@
 import wollok.game.*
 import escenas.*
-import molly.*
-
 
 program Game {
 	game.title("patoJuego")
 	game.width(126) 	
 	game.height(70) 	
-	game.cellSize(10) 		    
+	game.cellSize(10)		    
    
-    escPantallaInicio.iniciar()
-	
+    escPruebaDaño.iniciar()
 
     game.start()
 }
+

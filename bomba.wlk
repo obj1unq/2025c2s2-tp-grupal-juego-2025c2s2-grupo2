@@ -1,5 +1,5 @@
 import wollok.game.*
-
+import comidas.*
 object bomba {
     var property position = game.at(0.randomUpTo(144), 140)
     var property image = "bombita.png"

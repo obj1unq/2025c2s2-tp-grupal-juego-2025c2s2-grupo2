@@ -22,7 +22,6 @@ class Escena {
     method ejecutar() {
         eventos.forEach({com => com.ejecutar()})
         controles.forEach({com => com.apply()})
-        molly.vidas([vida1,vida2,vida3])
     }
 
     method limpiar() {
@@ -49,13 +48,6 @@ class Evento {
 }
 
 //-- INSTANCIAS -> -> ->
-
-
-const vida1 = new Corazon(position = game.at(126/2+10, 70-7), estaFeliz = true) // Corazon de la izquierda
-const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    // Corazon del medio
-const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = true) // Corazon de la derecha
-
-
 
 const menu = new Corazon(position = game.at(126/2, 35), estaFeliz = true)    // Corazon prueba de escenas
 
@@ -84,13 +76,8 @@ const cronometro = new Evento(
 const lanzar = new Evento(
     tiempo = 100,
     nombreDelEvento = "lanzar",
-    comando = {molly.lanzandoCaja()})
-
-const asignarVidas = new Evento(
-    tiempo = 0,
-    nombreDelEvento = "asignarVidas",
-    comando = {molly.vidas([vida1,vida2,vida3])}
-) 
+    comando = {molly.lanzandoCaja()}
+)
 
 const eventoFinal = new Evento(
     tiempo = 1,
@@ -105,24 +92,24 @@ const eventoFinal = new Evento(
 
 )
 
+const v1 = molly.vidas().get(0)
+const v2 = molly.vidas().get(1)
+const v3 = molly.vidas().get(2)
+
 //Creando la escena jugable 
 const escPrincipal = new Escena(
     visuales = [
-        molly,
+        molly,v1,v2,v3,
         marcoPuntaje,
         puntaje,
-        tiempo,
-        vida1,
-        vida2,
-        vida3
+        tiempo
     ],
     eventos = [
         spawnComidas,
         gravedadComida,
         gravedadMolly,
         cronometro,
-        lanzar,
-        envenenada
+        lanzar
     ],
     controles = [
         {keyboard.up().onPressDo({molly.saltar()})},
@@ -151,8 +138,12 @@ const escFinal = new Escena(
     controles = []
 )
 
-const envenenada = new Evento(
-    tiempo = 5000,
-    nombreDelEvento = "envenenada",
-    comando = {molly.recibirDaño()}
+//Escena de prueba para controlar las vidas
+
+
+const escPruebaDaño = new Escena(
+
+    visuales = [v1,v2,v3],
+    eventos = [],
+    controles = []
 )
