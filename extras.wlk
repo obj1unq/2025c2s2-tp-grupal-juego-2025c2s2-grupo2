@@ -99,6 +99,11 @@ object tiempo {
 
 object final {
     var property position = game.center()  
-    method text() = "juego terminado, tus puntos son " + molly.puntos()
+    method text() = "Juego terminado, tus puntos son " + molly.puntos()
+}
+
+object menuFinal {
+    var property position = game.at(0,0)
+    method image() = "menufinal.png"  
 }
 

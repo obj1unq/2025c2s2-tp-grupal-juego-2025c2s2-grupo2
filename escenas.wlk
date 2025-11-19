@@ -94,7 +94,9 @@ const eventoFinal = new Evento(
         game.removeTickEvent("gravedad comida")
         game.removeTickEvent("gravedad molly")
         game.removeTickEvent("tiempo")
-        game.addVisual(final)}
+        game.addVisual(menuFinal)
+        game.addVisual(final)
+        }
 )
 
 //Creando la escena jugable 
@@ -142,11 +144,8 @@ const escFinal = new Escena(
     controles = []
 )
 
-const pincho = new Pincho()
-
 const escPincho = new Escena (
     visuales = [pincho],
     eventos =[],
     controles = []
 )
-
