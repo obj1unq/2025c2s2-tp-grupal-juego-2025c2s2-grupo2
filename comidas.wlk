@@ -83,6 +83,11 @@ class Sandia inherits Comida{
     override method puntos() = 30
 }
 
+class TipoDeComida {
+method image()
+method puntos()
+}
+
 object spawner {
     const property instancias = []
 
