@@ -1,7 +1,7 @@
 import wollok.game.*
 import molly.*
 import extras.*
-import comidas.*
+import elementos.*
 import bomba.*
 
 class Escena {
@@ -141,3 +141,4 @@ const escFinal = new Escena(
     eventos = [eventoFinal],
     controles = []
 )
+

@@ -1,7 +1,7 @@
 import wollok.game.*
 import molly.*
-import comidas.*
 import escenas.*
+import elementos.*
 
 class Direccion {
     method nombreDir() //se sobreescribe en las direcciones
@@ -97,5 +97,4 @@ object final {
     var property position = game.center()  
     method text() = "juego terminado, tus puntos son " + molly.puntos()
 }
-
 
