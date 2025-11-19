@@ -8,6 +8,7 @@ class Comida {
     var property pos = game.at(self.posX(), 56)
     var property agarradaPor = null
     var property estaSiendoLevantada = false
+    const property tipo
 
     method position() {
         if (estaSiendoLevantada)
@@ -15,9 +16,9 @@ class Comida {
         else {return pos}
     }
 
-    method image() //se sobreescribe en las comidas
+    method image() = tipo.image() //se sobreescribe en las comidas
 
-    method puntos() //se sobreescribe en las comidas
+    method puntos() = tipo.puntos()//se sobreescribe en las comidas
 
     method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
@@ -65,19 +66,19 @@ class Comida {
     }
 }
 
-class Manzana inherits Comida {
+object manzana inherits TipoDeComida {
     override method image() = "manzana.png"
 
     override method puntos() = 10
 }
 
-class Zanahoria inherits Comida {
+object zanahoria inherits TipoDeComida {
     override method image() = "BIGZANAHORIA.png" 
 
     override method puntos() = 20
 }
 
-class Sandia inherits Comida{
+object sandia inherits TipoDeComida{
     override method image() = "sandia.png"
 
     override method puntos() = 30
@@ -90,29 +91,21 @@ method puntos()
 
 object spawner {
     const property instancias = []
+    const tipos = [manzana, sandia, zanahoria]
 
-    method instanciarManzana() {
-        const manzana = new Manzana()
-        game.addVisual(manzana)
-        instancias.add(manzana)
-    }
-
-    method instanciarSandia() {
-        const sandia = new Sandia()
-        game.addVisual(sandia)
-        instancias.add(sandia)
-    }
-
-    method instanciarZanahoria() {
-        const zanahoria = new Zanahoria()
-        game.addVisual(zanahoria)
-        instancias.add(zanahoria)
+    method instaciarComida(tipoComida) {
+        const _comida = new Comida(tipo = tipoComida)
+        game.addVisual(_comida)
+        instancias.add(_comida)    
     }
 
     method instanciarAleatorio() {
-        const bloques = [{self.instanciarSandia()}, {self.instanciarZanahoria()}, {self.instanciarManzana()}]
-        bloques.randomize() 
-        bloques.first().apply()
-        console.println(instancias.size())
+        self.instaciarComida(tipos.anyOne())
     }
+}
+
+
+class TipoDeComida {
+    method image()
+    method puntos()
 }

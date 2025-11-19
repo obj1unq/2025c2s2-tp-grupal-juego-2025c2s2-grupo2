@@ -52,7 +52,7 @@ class Evento {
 
 const vida1 = new Corazon(position = game.at(126/2+10, 70-7), estaFeliz = true) // Corazon de la izquierda
 const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    // Corazon del medio
-const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = false) // Corazon de la derecha
+const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = true) // Corazon de la derecha
 
 
 const menu = object {
