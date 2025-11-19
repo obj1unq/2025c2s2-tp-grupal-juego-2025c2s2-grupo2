@@ -1,6 +1,6 @@
 import wollok.game.*
 import extras.*
-import comidas.*
+import elementos.*
 
 object molly {
     var property mirandoA = der //para cambiar imagen dependiendo a donde este mirando cuando se mueve derecha o izquierda
