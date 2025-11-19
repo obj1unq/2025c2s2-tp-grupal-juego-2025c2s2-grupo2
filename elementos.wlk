@@ -4,8 +4,7 @@ import wollok.game.*
 import molly.*
 import extras.*
 
-class Comida {
-    var property pos = game.at(self.posX(), 56)
+class Comida inherits Elementos{
     var property agarradaPor = null
     var property estaSiendoLevantada = false
     const property tipo
@@ -20,22 +19,6 @@ class Comida {
 
     method puntos() = tipo.puntos()//se sobreescribe en las comidas
 
-    method descender() {  
-        const objetosDebajo = game.getObjectsIn(pos.down(7))
-        if(pos.y() > 0 && objetosDebajo.isEmpty()) {
-            pos = pos.down(1)
-        }
-    }
-
-    method mover(unaDireccion){
-        if (unaDireccion.nombreDir() == "der"){
-            pos = pos.right(1)
-        }
-        else{
-            pos = pos.left(1)
-        }
-    }
-
     method lanzar(unaDireccion) {
         if (tablero.lindantesEn(self, unaDireccion).isEmpty()){ //delegamos al tablero 
             tablero.validarMoverse(self, unaDireccion) //delegamos al tablero
@@ -45,13 +28,6 @@ class Comida {
             molly.lanzandoComida(false)
             molly.comidaLevantada(null)
         }
-    }
-
-    method posX() {
-        const rangoMinimo = 0
-        const rangoMaximo = 126
-
-        return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
     }
 
     method explotar() {
@@ -94,14 +70,17 @@ class TipoDeElemento {
     method instanciar() = new Comida(tipo = self)
 }
 
-class Pincho {
-    var pos = 0
+class Pincho inherits Elementos{ 
     const property tipo
 
     method position() = pos 
     method image() = tipo.image() //se sobreescribe en las comidas
     method puntos() = tipo.puntos()//se sobreescribe en las comidas
+}
 
+class Elementos {
+    var property pos = game.at(self.posX(), 56)
+    
     method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
         if(pos.y() > 0 && objetosDebajo.isEmpty()) {
@@ -117,6 +96,14 @@ class Pincho {
             pos = pos.left(1)
         }
     }
+
+    method posX() {
+        const rangoMinimo = 0
+        const rangoMaximo = 126
+
+        return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
+    }
+
 }
 
 object spawner {
