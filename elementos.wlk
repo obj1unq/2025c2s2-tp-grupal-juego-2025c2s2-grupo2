@@ -66,33 +66,41 @@ class Comida {
     }
 }
 
-object manzana inherits TipoDeComida {
+object manzana inherits TipoDeElemento {
     override method image() = "manzana.png"
-
     override method puntos() = 10
 }
 
-object zanahoria inherits TipoDeComida {
+object zanahoria inherits TipoDeElemento {
     override method image() = "BIGZANAHORIA.png" 
-
     override method puntos() = 20
 }
 
-object sandia inherits TipoDeComida{
+object sandia inherits TipoDeElemento{
     override method image() = "sandia.png"
-
     override method puntos() = 30
 }
 
-class TipoDeComida {
+object pincho inherits TipoDeElemento{
+    override method image() = "pinchos.png"
+    override method puntos() = 0
+    override method instanciar() = new Pincho(tipo = self)
+}
+
+class TipoDeElemento {
     method image()
     method puntos()
+
+    method instanciar() = new Comida(tipo = self)
 }
 
 class Pincho {
-    var pos
+    var pos = 0
+    const property tipo
+
     method position() = pos 
-    method image() = "pinchos.png"
+    method image() = tipo.image() //se sobreescribe en las comidas
+    method puntos() = tipo.puntos()//se sobreescribe en las comidas
 
     method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
@@ -113,12 +121,12 @@ class Pincho {
 
 object spawner {
     const property instancias = []
-    const tipos = [manzana, sandia, zanahoria]
+    const tipos = [manzana, sandia, zanahoria, pincho]
 
-    method instaciarComida(tipoComida) {
-        const _comida = new Comida(tipo = tipoComida)
-        game.addVisual(_comida)
-        instancias.add(_comida)    
+    method instaciarComida(tipo) {
+        const elemento = tipo.instanciar()
+        game.addVisual(elemento)
+        instancias.add(elemento)    
     }
 
     method instanciarAleatorio() {
