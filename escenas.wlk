@@ -55,8 +55,10 @@ const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    
 const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = false) // Corazon de la derecha
 
 
-const menu = new Corazon(position = game.at(126/2, 35), estaFeliz = true)    // Corazon prueba de escenas
-
+const menu = object {
+    var property position = game.at(0,0)
+    method image() = "menuinicio.png"
+}
 
 //Creando los eventos de la escena jugable
 const spawnComidas = new Evento(
