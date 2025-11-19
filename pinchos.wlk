@@ -3,7 +3,7 @@ import wollok.game.*
 class Pincho {
     var pos
     method position() = pos 
-    method image()
+    method image() = "pinchos.png"
 
     method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
