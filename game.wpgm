@@ -8,7 +8,8 @@ program Game {
 	game.cellSize(10)
 	game.boardGround("fondo.png")		    
    
-    escPantallaInicio.iniciar()
+    //escPantallaInicio.iniciar()
+	escPincho.iniciar()
 
     game.start()
 }

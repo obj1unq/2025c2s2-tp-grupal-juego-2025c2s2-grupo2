@@ -69,11 +69,27 @@ class Pincho inherits Elementos{
     method position() = pos 
     method image() = "pinchos.png"
 
+    override method descender() {
+        const objetosDebajo = game.getObjectsIn(pos.down(7))
+        if(pos.y() > 0 && objetosDebajo.isEmpty()){
+            pos = pos.down(1)
+        } else if (objetosDebajo.contains(molly)){ //se fija si tiene a molly abajo
+            molly.restarVida() 
+            self.destruir()
+        } else if (pos.y() == 0) { //mejorar 
+            self.destruir()
+        }
+    }
+
+    method destruir() {
+        game.removeVisual(self)
+    }
+
 }
 
 class Elementos {
     var property pos = game.at(self.posX(), 56)
-    
+
     method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
         if(pos.y() > 0 && objetosDebajo.isEmpty()) {

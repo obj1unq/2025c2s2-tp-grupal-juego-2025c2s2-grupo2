@@ -63,7 +63,7 @@ object marcoPuntaje {
 
 class Corazon {
     var property position
-    const estaFeliz
+    var estaFeliz
 
     method image(){
         if (estaFeliz){
@@ -72,6 +72,10 @@ class Corazon {
         else{
             return "corazoncitotrite.png"
         }
+    }
+
+    method cambiarEstado() {
+        estaFeliz = !estaFeliz
     }
 
 }

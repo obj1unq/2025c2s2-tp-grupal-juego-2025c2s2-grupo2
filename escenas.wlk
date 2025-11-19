@@ -142,3 +142,11 @@ const escFinal = new Escena(
     controles = []
 )
 
+const pincho = new Pincho()
+
+const escPincho = new Escena (
+    visuales = [pincho],
+    eventos =[],
+    controles = []
+)
+

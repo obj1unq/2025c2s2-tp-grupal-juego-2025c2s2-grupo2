@@ -1,6 +1,7 @@
 import wollok.game.*
 import extras.*
 import elementos.*
+import escenas.*
 
 object molly {
     var property mirandoA = der //para cambiar imagen dependiendo a donde este mirando cuando se mueve derecha o izquierda
@@ -90,5 +91,14 @@ object molly {
 
     method aumentarPuntaje(cantidad) {
         puntos = puntos + cantidad
+    }
+
+    method restarVida() {
+        if (vidas.any({vida => vida.estaFeliz()})) {
+             vidas.any({vida => vida.estaFeliz()}).cambiarEstado()
+        } else {
+            escPrincipal.siguienteEscena(escFinal)
+        }
+
     }
 }
