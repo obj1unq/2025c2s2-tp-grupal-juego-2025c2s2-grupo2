@@ -9,10 +9,7 @@ object tablero {
     method lindantesEn(unaComida, unaDireccion) { //mismo metodo, solo que hay q pasar unaComida como parametro
         const posicionComida = unaComida.pos()
         const filtrado = game.getObjectsIn(unaDireccion.siguiente(posicionComida))
-        if (filtrado.any({obj => obj.tipo() != unaComida.tipo()})){          //arreglar
-            filtrado.remove(filtrado.find({obj => obj.tipo() != unaComida.tipo()}))
-        }
-        return filtrado
+        return filtrado.filter({obj => obj.tipo() == unaComida.tipo()})
     }
 
     method lindantes(unaComida) { //mismo metodo, solo que hay q pasar unaComida como parametro 

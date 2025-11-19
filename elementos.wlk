@@ -7,17 +7,12 @@ import extras.*
 class Comida inherits Elementos{
     var property agarradaPor = null
     var property estaSiendoLevantada = false
-    const property tipo
 
     method position() {
         if (estaSiendoLevantada)
             {return game.at(molly.position().x(), molly.position().y() + 7)}
         else {return pos}
     }
-
-    method image() = tipo.image() //se sobreescribe en las comidas
-
-    method puntos() = tipo.puntos()//se sobreescribe en las comidas
 
     method lanzar(unaDireccion) {
         if (tablero.lindantesEn(self, unaDireccion).isEmpty()){ //delegamos al tablero 
@@ -42,32 +37,36 @@ class Comida inherits Elementos{
     }
 }
 
-object manzana inherits TipoDeComida {
+object manzana inherits TipoDeElemento {
     override method image() = "manzana.png"
-
     override method puntos() = 10
 }
 
-object zanahoria inherits TipoDeComida {
+object zanahoria inherits TipoDeElemento {
     override method image() = "BIGZANAHORIA.png" 
-
     override method puntos() = 20
 }
 
-object sandia inherits TipoDeComida{
+object sandia inherits TipoDeElemento{
     override method image() = "sandia.png"
-
     override method puntos() = 30
 }
 
-class TipoDeComida {
-    method image()
-    method puntos()
+object pincho inherits TipoDeElemento{
+    override method image() = "pincho.png"
+    override method puntos() = 0
+    override method instanciar() = new Pincho(tipo = self)
 }
 
-class Pincho inherits Elementos{
+class TipoDeElemento {
+    method image()
+    method puntos()
+
+    method instanciar() = new Comida(tipo = self)
+}
+
+class Pincho inherits Elementos{ 
     method position() = pos 
-    method image() = "pinchos.png"
 
     override method descender() {
         const objetosDebajo = game.getObjectsIn(pos.down(7))
@@ -89,7 +88,11 @@ class Pincho inherits Elementos{
 
 class Elementos {
     var property pos = game.at(self.posX(), 56)
+    const property tipo
 
+    method image() = tipo.image() //se sobreescribe en las comidas
+    method puntos() = tipo.puntos()
+    
     method descender() {  
         const objetosDebajo = game.getObjectsIn(pos.down(7))
         if(pos.y() > 0 && objetosDebajo.isEmpty()) {
@@ -117,12 +120,12 @@ class Elementos {
 
 object spawner {
     const property instancias = []
-    const tipos = [manzana, sandia, zanahoria]
+    const tipos = [manzana, sandia, zanahoria, pincho]
 
-    method instaciarComida(tipoComida) {
-        const _comida = new Comida(tipo = tipoComida)
-        game.addVisual(_comida)
-        instancias.add(_comida)    
+    method instaciarComida(tipo) {
+        const elemento = tipo.instanciar()
+        game.addVisual(elemento)
+        instancias.add(elemento)    
     }
 
     method instanciarAleatorio() {
