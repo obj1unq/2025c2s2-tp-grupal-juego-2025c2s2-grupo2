@@ -1,5 +1,7 @@
 import wollok.game.*
 import escenas.*
+import elementos.*
+
 
 program Game {
 	game.title("patoJuego")
@@ -8,6 +10,7 @@ program Game {
 	game.cellSize(10)
 	game.boardGround("fondo.png")		    
    
+
     escPantallaInicio.iniciar()
 
     game.start()

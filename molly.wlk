@@ -63,13 +63,17 @@ object molly {
         position = direccion.siguiente(position)
     }
 
+    method objetoLindante(direccion) {
+        return game.getObjectsIn(direccion.siguiente(
+            game.at(position.x(), (position.y() / 7).truncate(0) * 7))) 
+    }
 
     method validarMoverse(direccion) {
         self.validarSalirBordes(direccion)
-        const objetoDir = game.getObjectsIn(direccion.siguiente(position))                 // Me da lista de objetos en la posicion a la que me quiero mover               
-        if (not objetoDir.isEmpty()){ // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
-            self.error("Hay un objeto en esa direccion")                                                                 // String vacio significa que no se mueve!
-        } 
+        if (not self.objetoLindante(direccion).isEmpty()){ // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
+            self.error("")                                                                // String vacio significa que no se mueve!
+        }
+                 
     }
 
     method validarSalirBordes(direccion){

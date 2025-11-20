@@ -143,3 +143,31 @@ const escPincho = new Escena (
     eventos =[],
     controles = []
 )
+
+
+// PRUEBAS COLISIONES
+
+const muroManzana0 = new Comida(tipo = manzana, pos = game.at(14, 0))
+const muroManzana1 = new Comida(tipo = manzana, pos = game.at(14, 7))
+const muroManzana2 = new Comida(tipo = manzana, pos = game.at(14, 14))
+const muroManzana3 = new Comida(tipo = manzana, pos = game.at(14, 21))
+
+
+const escColisiones = new Escena (
+    visuales = [
+        molly,
+        muroManzana0,muroManzana1,muroManzana2,muroManzana3
+    ],
+    eventos = [
+        gravedadMolly
+        ],
+    controles = [
+        {keyboard.up().onPressDo({molly.saltar()})},
+        {keyboard.left().onPressDo({molly.moverse(izq)})},
+        {keyboard.right().onPressDo({molly.moverse(der)})},
+        {keyboard.down().onPressDo({molly.soltarCaja()})},
+        {keyboard.z().onPressDo({molly.sostenerCaja()})},
+        {keyboard.space().onPressDo({molly.lanzarCaja()})}
+    ]
+)
+
