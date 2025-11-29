@@ -1,6 +1,7 @@
 import wollok.game.*
 import escenas.*
 import elementos.*
+import extras.*
 
 
 program Game {
@@ -11,7 +12,7 @@ program Game {
 	game.boardGround("fondo.png")		    
    
 
-    escPantallaInicio.iniciar()
+    escSpritesAnimados.iniciar()
 
     game.start()
 }

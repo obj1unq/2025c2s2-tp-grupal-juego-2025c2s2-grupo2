@@ -3,6 +3,7 @@ import molly.*
 import extras.*
 import elementos.*
 import bomba.*
+import SpriteAnimation.*
 
 class Escena {
 
@@ -20,14 +21,14 @@ class Escena {
     }
     
     method ejecutar() {
-        eventos.forEach({com => com.ejecutar()})
+        eventos.forEach({com => com.start()})
         controles.forEach({com => com.apply()})
     }
 
     method limpiar() {
         game.clear()
         visuales.forEach({obj => game.removeVisual(obj)})
-        eventos.forEach({obj => game.removeTickEvent(obj.nombre())})
+        eventos.forEach({tickEvent => tickEvent.stop()})
     }
 
     method siguienteEscena(escena) {
@@ -36,17 +37,6 @@ class Escena {
     }
 
 }
-
-class Evento {
-    const tiempo = 0
-    const nombreDelEvento = "un nombre bonito"
-    const comando = {}
-
-    method nombre() = nombreDelEvento  
-    method ejecutar() {game.onTick(tiempo, nombreDelEvento, comando)}
-
-}
-
 //-- INSTANCIAS -> -> ->
 
 const menu = object {
@@ -55,46 +45,12 @@ const menu = object {
 }
 
 //Creando los eventos de la escena jugable
-const spawnComidas = new Evento(
-    tiempo = 5000,
-    nombreDelEvento = "spawnComidas",
-    comando = {spawner.instanciarAleatorio()})
+const spawnComidas = game.tick(5000, {spawner.instanciarAleatorio()}, false)
+const gravedadComida = game.tick(100, {spawner.instancias().forEach({unaComida => unaComida.descender()})}, false)
+const gravedadMolly = game.tick(100, {molly.descender()}, false)
+const cronometro = game.tick(1000,{tiempo.transcurrir()} , false)
+const lanzar = game.tick(100,{molly.lanzandoCaja()} , false)
 
-const gravedadComida = new Evento(
-    tiempo = 100,
-    nombreDelEvento = "gravedadComida",
-    comando = {spawner.instancias().forEach({unaComida => unaComida.descender()})})
-
-const gravedadMolly = new Evento(
-    tiempo = 100,
-    nombreDelEvento = "gravedadMolly",
-    comando = {molly.descender()})
-
-const cronometro = new Evento(
-    tiempo = 1000,
-    nombreDelEvento = "cronometro",
-    comando = {tiempo.transcurrir()})
-
-const lanzar = new Evento(
-    tiempo = 100,
-    nombreDelEvento = "lanzar",
-    comando = {molly.lanzandoCaja()})
-
-const eventoFinal = new Evento(
-    tiempo = 0,
-    nombreDelEvento = "final",
-    comando = {
-        game.removeTickEvent("spawn comidas")
-        game.removeTickEvent("gravedad comida")
-        game.removeTickEvent("gravedad molly")
-        game.removeTickEvent("tiempo")
-        game.addVisual(menuFinal)
-        game.addVisual(final)
-        }
-)
-const vida1 = molly.vidas().get(0)
-const vida2 = molly.vidas().get(1)
-const vida3 = molly.vidas().get(2)
 
 //Creando la escena jugable 
 const escPrincipal = new Escena(
@@ -133,8 +89,10 @@ const escPantallaInicio = new Escena(
 )
 
 const escFinal = new Escena(
-    visuales = [],
-    eventos = [eventoFinal],
+    visuales = [
+        menuFinal,
+        final],
+    eventos = [],
     controles = []
 )
 
@@ -168,6 +126,26 @@ const escColisiones = new Escena (
         {keyboard.down().onPressDo({molly.soltarCaja()})},
         {keyboard.z().onPressDo({molly.sostenerCaja()})},
         {keyboard.space().onPressDo({molly.lanzarCaja()})}
+        
     ]
 )
+
+const escSpritesAnimados = new Escena (
+    visuales = [
+        unaMazana,unaZanahoria,unaSandia
+    ],
+    eventos = [],
+    controles = [
+        {keyboard.space().onPressDo({   unaMazana.explotar()
+                                        unaZanahoria.explotar()
+                                        unaSandia.explotar()
+        })}
+    ]
+)
+
+const unaMazana = new Comida(tipo = manzana, pos = game.at(60, 35))
+const unaZanahoria = new Comida(tipo = zanahoria, pos = game.at(60-8, 35))
+const unaSandia = new Comida(tipo = sandia, pos = game.at(60+7, 35))
+
+
 
