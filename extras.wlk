@@ -4,11 +4,11 @@ import escenas.*
 import elementos.*
 
 class Direccion {
-    method nombreDir() //se sobreescribe en las direcciones
-    method siguiente(position) //se sobreescribe en las direcciones
+    method nombreDir() 
+    method siguiente(position) 
     method estaMirandoMolly(){
         return molly.mirandoA() == self
-    } //se sobreescribe en las direcciones
+    } 
 }
 
 object izq inherits Direccion {
@@ -45,7 +45,6 @@ object abajo inherits Direccion{
     override method siguiente(position){
         return position.down(7)
     }
-
     override method nombreDir() {
         return "arriba"
     }
@@ -106,7 +105,6 @@ object menuFinal {
     var property position = game.at(0,0)
     method image() = "menufinal.png"  
 }
-
 
 object hitbox {
     //var property position = game.center()
