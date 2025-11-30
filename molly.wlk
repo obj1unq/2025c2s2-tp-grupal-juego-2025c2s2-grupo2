@@ -2,6 +2,7 @@ import wollok.game.*
 import extras.*
 import elementos.*
 import escenas.*
+import tablero.*
 
 object molly {
     var property mirandoA = der //para cambiar imagen dependiendo a donde este mirando cuando se mueve derecha o izquierda
@@ -36,7 +37,7 @@ object molly {
     method soltarCaja() { //en la posicion donde esta molly 
         comidaLevantada = game.getObjectsIn(position.up(7)).first() //a discutir.. no es necesario xq es lo mismo
         comidaLevantada.estaSiendoLevantada(false) //la comida deja de ser levantada
-        comidaLevantada.pos(position) // cambia la posicion de la comida por la posicion de molly
+        comidaLevantada.position(position) // cambia la posicion de la comida por la posicion de molly
         position = position.up(7) // molly queda arriba de la comida
         
     }
@@ -51,7 +52,7 @@ object molly {
         if (comidaLevantada != null) {
             lanzandoComida = true
             comidaLevantada.estaSiendoLevantada(false)
-            comidaLevantada.pos(position)
+            comidaLevantada.position(position)
             apuntar = mirandoA  // a discutir... tiene mas sentido que apuntar sea mirandoA 
             self.lanzandoCaja()
         }
@@ -63,14 +64,9 @@ object molly {
         position = direccion.siguiente(position)
     }
 
-    method objetoLindante(direccion) {
-        return game.getObjectsIn(direccion.siguiente(
-            game.at(position.x(), (position.y() / 7).truncate(0) * 7))) 
-    }
-
     method validarMoverse(direccion) {
         self.validarSalirBordes(direccion)
-        if (not self.objetoLindante(direccion).isEmpty()){ // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
+        if (not tablero.objetoLindante(direccion, position).isEmpty()){ // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
             self.error("")                                                                // String vacio significa que no se mueve!
         }
                  

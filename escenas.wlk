@@ -2,7 +2,6 @@ import wollok.game.*
 import molly.*
 import extras.*
 import elementos.*
-import bomba.*
 import SpriteAnimation.*
 
 class Escena {
@@ -45,7 +44,7 @@ const menu = object {
 }
 
 //Creando los eventos de la escena jugable
-const spawnComidas = game.tick(5000, {spawner.instanciarAleatorio()}, false)
+const spawnElementos = game.tick(5000, {spawner.instanciarAlguno()}, false)
 const gravedadComida = game.tick(100, {spawner.instancias().forEach({unaComida => unaComida.descender()})}, false)
 const gravedadMolly = game.tick(100, {molly.descender()}, false)
 const cronometro = game.tick(1000,{tiempo.transcurrir()} , false)
@@ -61,7 +60,7 @@ const escPrincipal = new Escena(
         tiempo
     ] + molly.vidas(),
     eventos = [
-        spawnComidas,
+        spawnElementos,
         gravedadComida,
         gravedadMolly,
         cronometro,
@@ -105,10 +104,10 @@ const escPincho = new Escena (
 
 // PRUEBAS COLISIONES
 
-const muroManzana0 = new Comida(tipo = manzana, pos = game.at(14, 0))
-const muroManzana1 = new Comida(tipo = manzana, pos = game.at(14, 7))
-const muroManzana2 = new Comida(tipo = manzana, pos = game.at(14, 14))
-const muroManzana3 = new Comida(tipo = manzana, pos = game.at(14, 21))
+const muroManzana0 = new Comida(tipo = manzana, position = game.at(14, 0))
+const muroManzana1 = new Comida(tipo = manzana, position = game.at(14, 7))
+const muroManzana2 = new Comida(tipo = manzana, position = game.at(14, 14))
+const muroManzana3 = new Comida(tipo = manzana, position = game.at(14, 21))
 
 
 const escColisiones = new Escena (
@@ -143,9 +142,27 @@ const escSpritesAnimados = new Escena (
     ]
 )
 
-const unaMazana = new Comida(tipo = manzana, pos = game.at(60, 35))
-const unaZanahoria = new Comida(tipo = zanahoria, pos = game.at(60-8, 35))
-const unaSandia = new Comida(tipo = sandia, pos = game.at(60+7, 35))
+const unaMazana = new Comida(tipo = manzana, position = game.at(60, 35))
+const unaZanahoria = new Comida(tipo = zanahoria, position = game.at(14, 35))
+const unaSandia = new Comida(tipo = sandia, position = game.at(0, 35))
+const unaBomba = new Bomba(tipo = bomba, position = game.at(7, 35))
 
+const escenaBombaEjemplo = new Escena(
+    visuales = [
+        unaBomba,
+        unaZanahoria,
+        unaSandia,
+        molly
+    ] + molly.vidas(),
+    eventos = [
 
-
+    ],
+    controles = [
+        {keyboard.up().onPressDo({molly.saltar()})},
+        {keyboard.left().onPressDo({molly.moverse(izq)})},
+        {keyboard.right().onPressDo({molly.moverse(der)})},
+        {keyboard.down().onPressDo({molly.soltarCaja()})},
+        {keyboard.z().onPressDo({molly.sostenerCaja()})},
+        {keyboard.space().onPressDo({unaBomba.destruir()})}
+    ]    
+)
