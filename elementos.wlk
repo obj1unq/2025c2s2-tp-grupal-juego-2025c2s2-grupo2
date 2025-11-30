@@ -5,7 +5,6 @@ import molly.*
 import extras.*
 
 class Elementos {
-    //var property pos = game.at(self.posicionAleatoria(), 56)
     const property tipo  // Referencia de la instancia de la clase
 
     var property position = game.at(self.posicionAleatoria(), 56)
@@ -35,10 +34,10 @@ class Elementos {
         return (rangoMinimo.randomUpTo(rangoMaximo) / 7).truncate(0) * 7
     }
 
-    method destruir() { 
-        image = "exploision.png"
-        game.schedule(500, {spawner.borrarInstancia(self)})
-        console.println(self)
+    method destruir() { // Destruye el elemento con un efecto de explosion
+        const explosion = new Explosion(position = position) // Nueva explosion en la posicion del elemento a destruir
+        spawner.borrarInstancia(self)  // Se borra la instancia del elemento que se destruye
+        explosion.spawnear()
     }
 }
 
@@ -70,6 +69,15 @@ object pincho inherits TipoDeElemento{
 object bomba inherits TipoDeElemento{
     override method image() = "bomba.png"
     override method puntos() = 0
+}
+
+class Explosion {  // Clase explosion porque habrán varias explosiones
+    var property position
+    method image() = "explosion.png"
+    method spawnear(){
+        game.addVisual(self)      // Agrega el visual de la explosion
+        game.schedule(500, {game.removeVisual(self)})  // Desaparece la explosion despues de 5 segundos
+    }
 }
 
 class Comida inherits Elementos{
@@ -110,13 +118,14 @@ class Dañino inherits Elementos{
         const objetosDebajo = game.getObjectsIn(position.down(7))
         if (objetosDebajo.contains(molly)){  // Si tiene a Molly debajo, le saca una vida a Molly y se destruye
             self.destruir()         
-            //molly.restarVida() 
-            }
+            molly.restarVida() 
+        }
         if (position.y() == 0) { // Si llega al piso, explota
-             self.destruir()
-            }
+            self.destruir()
+        }
         if (position.y() > 0 && objetosDebajo.isEmpty()){ // Si esta en el aire y no tiene nada abajo, desciende
-            position = position.down(1) }
+            position = position.down(1) 
+        }
     }
 }
 

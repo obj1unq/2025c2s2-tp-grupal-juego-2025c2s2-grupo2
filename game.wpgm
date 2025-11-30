@@ -9,7 +9,7 @@ program Game {
 	game.height(70) 	
 	game.cellSize(10)
 	game.boardGround("fondo.png")		    
-   
+    
     //escenaBombaEjemplo.iniciar()
     escPrincipal.iniciar()
 
