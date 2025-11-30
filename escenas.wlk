@@ -44,7 +44,8 @@ const menu = object {
 }
 
 //Creando los eventos de la escena jugable
-const spawnElementos = game.tick(5000, {spawner.instanciarAlguno()}, false)
+const spawnComidas = game.tick(2000, {spawner.instaciarComidaAleatoria()}, false)
+const spawnDañino = game.tick(5000, {spawner.instanciarAlgunDañino()}, false)
 const gravedadComida = game.tick(100, {spawner.instancias().forEach({unaComida => unaComida.descender()})}, false)
 const gravedadMolly = game.tick(100, {molly.descender()}, false)
 const cronometro = game.tick(1000,{tiempo.transcurrir()} , false)
@@ -55,12 +56,14 @@ const lanzar = game.tick(100,{molly.lanzandoCaja()} , false)
 const escPrincipal = new Escena(
     visuales = [
         molly,
-        marcoPuntaje,
+        marco1,
+        marco2,
         puntaje,
         tiempo
     ] + molly.vidas(),
     eventos = [
-        spawnElementos,
+        spawnComidas,
+        spawnDañino,
         gravedadComida,
         gravedadMolly,
         cronometro,
