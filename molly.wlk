@@ -11,7 +11,7 @@ object molly {
     var property puntos = 0
     var property comidaLevantada = null
     var property lanzandoComida = false
-    var property apuntar = null //direccion (es preferible usar la variable de mirandoA q ya tiene der o izq)
+    var property apuntandoA = null //direccion a la que apunta cuando se esta lanzando
     const vida1 = new Corazon(position = game.at(126/2+10, 70-7), estaFeliz = true) // Corazon de la izquierda
     const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    // Corazon del medio
     const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = true) // Corazon de la derecha
@@ -24,18 +24,18 @@ object molly {
 
     method sostenerCaja() {
         if(der.estaMirandoMolly()){ // molly esta mirando a la comida de la der
-            comidaLevantada = game.getObjectsIn(position.right(7)).first() //agarra la comida en la posicion 
+            comidaLevantada = tablero.objetosEn(der, position).uniqueElement() //agarra la comida en la posicion 
             comidaLevantada.estaSiendoLevantada(true)
         }
         else {  //molly esta mirando a la comida de la izq
-            comidaLevantada = game.getObjectsIn(position.left(7)).first()
+            comidaLevantada = tablero.objetosEn(izq, position).uniqueElement()
             comidaLevantada.estaSiendoLevantada(true)
         }
 
     }
 
     method soltarCaja() { //en la posicion donde esta molly 
-        comidaLevantada = game.getObjectsIn(position.up(7)).first() //a discutir.. no es necesario xq es lo mismo
+        comidaLevantada = tablero.objetosEn(arriba, position).uniqueElement() //a discutir.. no es necesario xq es lo mismo
         comidaLevantada.estaSiendoLevantada(false) //la comida deja de ser levantada
         comidaLevantada.position(position) // cambia la posicion de la comida por la posicion de molly
         position = position.up(7) // molly queda arriba de la comida
@@ -44,7 +44,7 @@ object molly {
 
     method lanzandoCaja() { // cambiar nombre, es el evento que desliza la caja
         if(lanzandoComida){ 
-            comidaLevantada.lanzar(apuntar) //apuntar = mirandoA ?
+            comidaLevantada.lanzar(apuntandoA) //apuntandoA = mirandoA ?
         }
     }
 
@@ -53,7 +53,7 @@ object molly {
             lanzandoComida = true
             comidaLevantada.estaSiendoLevantada(false)
             comidaLevantada.position(position)
-            apuntar = mirandoA  // a discutir... tiene mas sentido que apuntar sea mirandoA 
+            apuntandoA = mirandoA  // a discutir... tiene mas sentido que apuntandoA sea mirandoA 
             self.lanzandoCaja()
         }
     }
@@ -66,8 +66,8 @@ object molly {
 
     method validarMoverse(direccion) {
         self.validarSalirBordes(direccion)
-        if (not tablero.objetoLindante(direccion, position).isEmpty()){ // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
-            self.error("")                                                                // String vacio significa que no se mueve!
+        if (not tablero.objetoLindanteEnCelda(direccion, position).isEmpty()){ // Indica si quiere salirse del borde izquierdo, derecho, y si hay un objeto en donde me quiero mover
+            self.error("")   // String vacio significa que no se mueve!
         }
                  
     }
@@ -76,18 +76,17 @@ object molly {
         const bordeIzq = self.position().x() == 0 && izq.estaMirandoMolly()                
         const bordeDer = self.position().x() >= game.width()-10 && der.estaMirandoMolly() 
         if ((bordeIzq && direccion.nombreDir() == "izq") || (bordeDer && direccion.nombreDir() == "der")){                              
-            self.error("Estoy en un borde")                                                                 
+            self.error("")   // String vacio significa que no se mueve!                                                              
         }
     }
 
     method saltar() {
-        if (position.y() == 0 || not game.getObjectsIn(position.down(7)).isEmpty() ) //solo salta si esta en el piso o si esta arriba de una comida
+        if (position.y() == 0 || not tablero.objetosEn(abajo, position).isEmpty() ) //solo salta si esta en el piso o si esta arriba de una comida
           {position = position.up(7*2)}
     }
 
     method descender() {
-       const objetosDebajo = game.getObjectsIn(position.down(7))
-        if (position.y() > 0 && objetosDebajo.isEmpty()) { //desciende si no esta en el piso y si no tiene nada abajo
+        if (position.y() > 0 && tablero.objetosEn(abajo, position).isEmpty()) { //desciende si no esta en el piso y si no tiene nada abajo
             position = position.down(1)
         }
     }

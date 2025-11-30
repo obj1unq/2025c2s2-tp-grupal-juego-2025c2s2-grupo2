@@ -50,8 +50,12 @@ object tablero {
         } 
     }
 
-    method objetoLindante(direccion, position) {
+    method objetoLindanteEnCelda(direccion, position) {  // Retorna la lista de objetos en la celda lindante
         return game.getObjectsIn(direccion.siguiente(
-            game.at(position.x(), (position.y() / 7).truncate(0) * 7))) 
+            game.at(position.x(), (position.y() / 7).truncate(0) * 7))) // Cálculo que divide bien las celdas
+    }
+
+    method objetosEn(direccion, position){  // Retorna la lista de objetos que esta en la direccion dada desde la posicion
+        return game.getObjectsIn(direccion.siguiente(position))  
     }
 }

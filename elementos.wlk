@@ -11,8 +11,7 @@ class Elementos {
     method puntos() = tipo.puntos()
     
     method descender() {  
-        const objetosDebajo = game.getObjectsIn(position.down(7)) // Cambiar a objetoLidante tablero!!! Arreglar porfa!!!! 
-        if(position.y() > 0 && objetosDebajo.isEmpty()) {
+        if(position.y() > 0 && tablero.objetosEn(abajo, position).isEmpty()) {
             position = position.down(1)
         }
     }
@@ -114,12 +113,11 @@ class Comida inherits Elementos{
 
 class Dañino inherits Elementos{ 
     override method descender() {
-        const objetosDebajo = game.getObjectsIn(position.down(7))
-        if (objetosDebajo.contains(molly)){  // Si tiene a Molly debajo...
+        if (tablero.objetosEn(abajo, position).contains(molly)){  // Si tiene a Molly debajo...
             molly.restarVida()        // Le saca una vida a Molly
             self.destruir()           // Se destruye
         }
-        if (position.y() > 0 && objetosDebajo.isEmpty()){ // Si esta en el aire y no tiene nada abajo, desciende
+        if (position.y() > 0 && tablero.objetosEn(abajo, position).isEmpty()){ // Si esta en el aire y no tiene nada abajo, desciende
             position = position.down(1) 
         }
         else{
@@ -134,7 +132,7 @@ class Bomba inherits Dañino{
         if(not cosaLindante.contains(molly)){ // Si no está Molly en las lindantes...
             cosaLindante.forEach({cosa => cosa.destruir()})  // Destruir lo que este en las lindantes
         }
-        else if(tablero.objetoLindante(abajo, position).contains(molly)){  // Si está Molly debajo de la bomba, solo destruye lo que tiene al rededor ...
+        else if(tablero.objetosEn(abajo, position).contains(molly)){  // Si está Molly debajo de la bomba, solo destruye lo que tiene al rededor ...
             cosaLindante.copyWithout(molly).forEach({cosa => cosa.destruir()}) // sin destruir a molly ni restarle vida, ya que Descender ya le resta una vida
         }
         else {  // Si está Molly en alguna lindante...

@@ -105,28 +105,3 @@ object menuFinal {
     var property position = game.at(0,0)
     method image() = "menufinal.png"  
 }
-
-object hitbox {
-    //var property position = game.center()
-    var property image = "hitboxcolor.png"
-
-
-    method position() {
-        return 
-        
-        game.at(
-            molly.mirandoA().siguiente(molly.position()).x()
-            ,
-            (molly.position().y() / 7).truncate(0) * 7
-        )
-        // return  molly.position()
-    }
-
-    method estaColisionando() {
-        const retorno = game.getObjectsIn(self.position())
-        retorno.remove(molly)
-        retorno.remove(self)
-        console.println(retorno)
-        return !retorno.isEmpty()
-    }
-}
