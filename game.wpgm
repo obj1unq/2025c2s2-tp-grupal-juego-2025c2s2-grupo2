@@ -4,7 +4,7 @@ import elementos.*
 import extras.*
 
 program Game {
-	game.title("patoJuego")
+	game.title("Bunnytastico")
 	game.width(126) 	
 	game.height(70) 	
 	game.cellSize(10)

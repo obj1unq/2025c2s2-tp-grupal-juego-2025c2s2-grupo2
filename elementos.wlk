@@ -1,5 +1,4 @@
 import tablero.*
-import wollok.mirror.*
 import wollok.game.*
 import molly.*
 import extras.*
@@ -37,7 +36,7 @@ class Elementos {
     method destruir() { // Destruye el elemento con un efecto de explosion
         const explosion = new Explosion(position = position) // Nueva explosion en la posicion del elemento a destruir
         spawner.borrarInstancia(self)  // Se borra la instancia del elemento que se destruye
-        explosion.spawnear()
+        explosion.spawnear()           // Aparece y desaparece la explosion
     }
 }
 
@@ -116,29 +115,33 @@ class Comida inherits Elementos{
 class Dañino inherits Elementos{ 
     override method descender() {
         const objetosDebajo = game.getObjectsIn(position.down(7))
-        if (objetosDebajo.contains(molly)){  // Si tiene a Molly debajo, le saca una vida a Molly y se destruye
-            self.destruir()         
-            molly.restarVida() 
-        }
-        if (position.y() == 0) { // Si llega al piso, explota
-            self.destruir()
+        if (objetosDebajo.contains(molly)){  // Si tiene a Molly debajo...
+            molly.restarVida()        // Le saca una vida a Molly
+            self.destruir()           // Se destruye
         }
         if (position.y() > 0 && objetosDebajo.isEmpty()){ // Si esta en el aire y no tiene nada abajo, desciende
             position = position.down(1) 
+        }
+        else{
+            self.destruir() // Si tiene algo abajo (no esta en el piso), que no es molly, solo se destruye
         }
     }
 }
 
 class Bomba inherits Dañino{
-    override method destruir(){ 
+    override method destruir(){ // Destruir de Elementos
         const cosaLindante = tablero.cosasEnLindantesDe(self)
-        if(not tablero.cosasEnLindantesDe(self).contains(molly)){
-            cosaLindante.forEach({cosa => cosa.destruir()})
+        if(not cosaLindante.contains(molly)){ // Si no está Molly en las lindantes...
+            cosaLindante.forEach({cosa => cosa.destruir()})  // Destruir lo que este en las lindantes
         }
-        else {
-            molly.restarVida()
+        if(tablero.objetoLindante(abajo, position).contains(molly)){  // Si está Molly debajo de la bomba, solo destruye lo que tiene al rededor ...
+            cosaLindante.copyWithout(molly).forEach({cosa => cosa.destruir()}) // sin destruir a molly ni restarle vida, ya que Descender ya le resta una vida
         }
-        super()
+        else {  // Si está Molly en alguna lindante...
+            cosaLindante.copyWithout(molly).forEach({cosa => cosa.destruir()})  // Destruye lo que esté en las lindantes sin destruir a Molly
+            molly.restarVida()  // Le resta una vida a Molly
+        }
+        super()  // Explota la bomba
     }
 }
 
@@ -149,10 +152,6 @@ object spawner {
     const tiposDeDañino = [pincho]
 
     method instaciarComidaAleatoria() {
-        // const elemento = tipo.instanciar()
-        // game.addVisual(elemento)
-        // instancias.add(elemento) 
-
         const unaComida = new Comida(tipo = tiposDeComida.anyOne())
         game.addVisual(unaComida)
         instancias.add(unaComida)   
