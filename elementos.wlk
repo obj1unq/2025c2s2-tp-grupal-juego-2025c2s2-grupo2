@@ -16,15 +16,6 @@ class Elementos {
         }
     }
 
-    method mover(unaDireccion){
-        if (unaDireccion.nombreDir() == "der"){
-            position = position.right(1)
-        }
-        else{
-            position = position.left(1)
-        }
-    }
-
     method posicionAleatoria() {
         const rangoMinimo = 0
         const rangoMaximo = 126
@@ -79,25 +70,51 @@ class Explosion {  // Clase explosion porque habrán varias explosiones
 }
 
 class Comida inherits Elementos{
-    var property agarradaPor = null
     var property estaSiendoLevantada = false
 
-    override method position() {
-        if (estaSiendoLevantada)
-            {return game.at(molly.position().x(), molly.position().y() + 7)}
-        else {return position}
+    override method position(){
+        return if(estaSiendoLevantada) molly.position().up(7) else position
+    }
+
+    method mover(unaDireccion){
+        if (unaDireccion.nombreDir() == "der"){
+            position = position.right(1)
+        }
+        else{
+            position = position.left(1)
+        }
+    }
+
+    method eventoLanzar(unaDir) {
+        return game.tick(500, {self.mover(unaDir)}, false)
     }
 
     method lanzar(unaDireccion) {
-        if (tablero.lindantesDelMismoTipo(self, unaDireccion).isEmpty()){ //delegamos al tablero 
+
+        position = molly.position()
+        evento.start()
+        
+        const evento = game.tick(50, {
+            if (tablero.lindantesDelMismoTipo(self, unaDireccion).isEmpty()){ //delegamos al tablero 
             tablero.validarMoverse(self, unaDireccion) //delegamos al tablero
+            //evento.start()
             self.mover(unaDireccion)
-        } else {
-            tablero.lindantesDelMismoTipo(self, unaDireccion).first().explotar() //delegamos al tablero
-            molly.lanzandoComida(false)
-            molly.comidaLevantada(null)
+        } 
+        
+        if(!tablero.lindantesDelMismoTipo(self, unaDireccion).isEmpty()){
+                tablero.lindantesDelMismoTipo(self, unaDireccion).first().explotar() //delegamos al tablero
+                evento.stop()
         }
+        if(!tablero.objetoLindanteEnCelda(unaDireccion, position).isEmpty()){
+                evento.stop()
+        }
+        }
+        , false)
+
+
     }
+
+
 
     method explotar() {
         spawner.borrarInstancia(self)
@@ -109,6 +126,19 @@ class Comida inherits Elementos{
         }
         molly.aumentarPuntaje(acumulador)
     }
+
+    method interaccion() {
+        if(!estaSiendoLevantada){
+            estaSiendoLevantada = !estaSiendoLevantada
+        }
+        else 
+            if(estaSiendoLevantada){
+                self.lanzar(molly.mirandoA())
+                estaSiendoLevantada = !estaSiendoLevantada
+            }
+        //console.println(tipo)
+    }
+
 }
 
 class Dañino inherits Elementos{ 

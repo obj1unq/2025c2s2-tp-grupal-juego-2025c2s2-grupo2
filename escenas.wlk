@@ -1,3 +1,4 @@
+import tablero.*
 import wollok.game.*
 import molly.*
 import extras.*
@@ -48,7 +49,6 @@ const spawnElementos = game.tick(5000, {spawner.instanciarAlguno()}, false)
 const gravedadComida = game.tick(100, {spawner.instancias().forEach({unaComida => unaComida.descender()})}, false)
 const gravedadMolly = game.tick(100, {molly.descender()}, false)
 const cronometro = game.tick(1000,{tiempo.transcurrir()} , false)
-const lanzar = game.tick(100,{molly.lanzandoCaja()} , false)
 
 
 //Creando la escena jugable 
@@ -63,16 +63,14 @@ const escPrincipal = new Escena(
         spawnElementos,
         gravedadComida,
         gravedadMolly,
-        cronometro,
-        lanzar
+        cronometro
     ],
     controles = [
         {keyboard.up().onPressDo({molly.saltar()})},
         {keyboard.left().onPressDo({molly.moverse(izq)})},
         {keyboard.right().onPressDo({molly.moverse(der)})},
-        {keyboard.down().onPressDo({molly.soltarCaja()})},
-        {keyboard.z().onPressDo({molly.sostenerCaja()})},
-        {keyboard.space().onPressDo({molly.lanzarCaja()})}
+        {keyboard.down().onPressDo({molly.soltarComida()})},
+        {keyboard.z().onPressDo({molly.interactuar()})}
     ]
 )
 
@@ -166,3 +164,25 @@ const escenaBombaEjemplo = new Escena(
         {keyboard.space().onPressDo({unaBomba.destruir()})}
     ]    
 )
+
+const escenaMollyDispara = new Escena(
+    visuales = [
+        molly
+    ] + manzanas,
+    eventos = [
+        gravedadMolly,gravedadComida
+    ],
+    controles = [
+        {keyboard.up().onPressDo({molly.saltar()})},
+        {keyboard.left().onPressDo({molly.moverse(izq)})},
+        {keyboard.right().onPressDo({molly.moverse(der)})},
+        {keyboard.down().onPressDo({molly.soltarCaja()})},
+        {keyboard.z().onPressDo({molly.interactuar()})}
+    ]    
+)
+const manzanas = [ m1,m2,m3,m4]
+
+const m1 = new Comida(tipo = manzana, position = game.at(7, 0))
+const m2 = new Comida(tipo = manzana, position = game.at(14, 0))
+const m3 = new Comida(tipo = manzana, position = game.at(21, 0))
+const m4 = new Comida(tipo = zanahoria, position = game.at(0,0))

@@ -7,55 +7,13 @@ import tablero.*
 object molly {
     var property mirandoA = der //para cambiar imagen dependiendo a donde este mirando cuando se mueve derecha o izquierda
     var property position = game.at(0, 0)
-    var property vidas = [vida1, vida2, vida3]
+    var property vidas = corazones.list()
     var property puntos = 0
-    var property comidaLevantada = null
-    var property lanzandoComida = false
-    var property apuntandoA = null //direccion a la que apunta cuando se esta lanzando
-    const vida1 = new Corazon(position = game.at(126/2+10, 70-7), estaFeliz = true) // Corazon de la izquierda
-    const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    // Corazon del medio
-    const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = true) // Corazon de la derecha
 
     method image() = "molly-" + mirandoA.nombreDir() + ".png"
 
     method vidasRestantes(){
         return vidas.filter({vida => vida.estaFeliz()}).size()
-    }
-
-    method sostenerCaja() {
-        if(der.estaMirandoMolly()){ // molly esta mirando a la comida de la der
-            comidaLevantada = tablero.objetosEn(der, position).uniqueElement() //agarra la comida en la posicion 
-            comidaLevantada.estaSiendoLevantada(true)
-        }
-        else {  //molly esta mirando a la comida de la izq
-            comidaLevantada = tablero.objetosEn(izq, position).uniqueElement()
-            comidaLevantada.estaSiendoLevantada(true)
-        }
-
-    }
-
-    method soltarCaja() { //en la posicion donde esta molly 
-        comidaLevantada = tablero.objetosEn(arriba, position).uniqueElement() //a discutir.. no es necesario xq es lo mismo
-        comidaLevantada.estaSiendoLevantada(false) //la comida deja de ser levantada
-        comidaLevantada.position(position) // cambia la posicion de la comida por la posicion de molly
-        position = position.up(7) // molly queda arriba de la comida
-        
-    }
-
-    method lanzandoCaja() { // cambiar nombre, es el evento que desliza la caja
-        if(lanzandoComida){ 
-            comidaLevantada.lanzar(apuntandoA) //apuntandoA = mirandoA ?
-        }
-    }
-
-    method lanzarCaja() {
-        if (comidaLevantada != null) {
-            lanzandoComida = true
-            comidaLevantada.estaSiendoLevantada(false)
-            comidaLevantada.position(position)
-            apuntandoA = mirandoA  // a discutir... tiene mas sentido que apuntandoA sea mirandoA 
-            self.lanzandoCaja()
-        }
     }
 
     method moverse(direccion) {
@@ -103,4 +61,31 @@ object molly {
             escPrincipal.siguienteEscena(escFinal)
         }
     }
+
+    method interactuar() {
+        if(!tablero.objetosEn(arriba, position).isEmpty()){             // Si tiene un objeto en la cabeza significa que esta agarrando un tipo de comida
+            tablero.objetosEn(arriba, position).first().interaccion()   // Le da prioridad a la interaccion del objeto que sostiene
+        }else 
+            if(!tablero.objetosEn(mirandoA, position).isEmpty()){           // Si no tiene un obj en la cabeza, se fija si existe algun obj en la direccion donde esta mirando
+                tablero.objetosEn(mirandoA, position).first().interaccion() // Si dicho obj existe, entonces lo va agarrar
+            }
+    }
+
+    method soltarComida() { //en la posicion donde esta molly 
+        const comidaLevantada = tablero.objetosEn(arriba, position).uniqueElement() //a discutir.. no es necesario xq es lo mismo
+        comidaLevantada.estaSiendoLevantada(false) //la comida deja de ser levantada
+        comidaLevantada.position(position) // cambia la posicion de la comida por la posicion de molly
+        position = position.up(7) // molly queda arriba de la comida
+        
+    }
+}
+
+object corazones {
+    const property list = [vida1,vida2,vida3]
+   
+
+    const vida1 = new Corazon(position = game.at(126/2+10, 70-7), estaFeliz = true) // Corazon de la izquierda
+    const vida2 = new Corazon(position = game.at(126/2, 70-7), estaFeliz = true)    // Corazon del medio
+    const vida3 = new Corazon(position = game.at(126/2-10, 70-7), estaFeliz = true) // Corazon de la derecha
+
 }

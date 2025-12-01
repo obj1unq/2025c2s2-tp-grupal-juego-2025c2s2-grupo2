@@ -43,7 +43,7 @@ object tablero {
 
     method validarMoverse(unaCosa, direccion) { //mismo metodo, solo que hay q pasar unaCosa como parametro
         const bordeIzq = unaCosa.position().x() == 0                
-        const bordeDer = unaCosa.position().x() >= game.width()-10 
+        const bordeDer = unaCosa.position().x() >= game.width()-7 
         const objetoDir = game.getObjectsIn(direccion.siguiente(unaCosa.position()))                 
         if (bordeIzq || bordeDer || not objetoDir.isEmpty()){                              
             self.error("")                                                                 

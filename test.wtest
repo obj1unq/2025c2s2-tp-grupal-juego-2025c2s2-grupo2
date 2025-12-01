@@ -6,7 +6,7 @@ import wollok.game.*
 describe "Reaccion en cadena explisiva de las comidas" {
     
     //Referencia para poder testear la explosion en cadena
-    const primeraManzana = new Manzana(pos = game.at(7, 7))
+    const primeraManzana = new Comida(tipo = manzana,pos = game.at(7, 7))
 
     method initialize() {
         game.addVisual(primeraManzana)
