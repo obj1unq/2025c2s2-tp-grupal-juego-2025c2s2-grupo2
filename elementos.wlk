@@ -196,10 +196,9 @@ object spawner {
         game.addVisual(unaBomba)
         instancias.add(unaBomba)
     }
-
-    method instanciarAlguno() {
-        const bloque = [{self.instaciarComidaAleatoria()},
-                        {self.instanciarDañinoAleatorio()},
+    
+    method instanciarAlgunDañino(){
+        const bloque = [{self.instanciarDañinoAleatorio()},
                         {self.instanciarBomba()}]
         const instancia = bloque.anyOne()
         instancia.apply()

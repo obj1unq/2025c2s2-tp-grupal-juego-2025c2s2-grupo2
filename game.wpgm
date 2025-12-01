@@ -10,6 +10,7 @@ program Game {
 	game.cellSize(10)
 	game.boardGround("fondo.png")		    
 
+	//escFinal.iniciar()
     escPantallaInicio.iniciar()
 
     game.start()

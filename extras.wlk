@@ -51,14 +51,17 @@ object abajo inherits Direccion{
 }
 
 object puntaje {
-   var property position = game.at(8, 66)
+   var property position = game.at(12, 66)
    method text () = "PUNTOS:" + " " + molly.puntos()
+   method textColor() = "#000000"
 }
 
-object marcoPuntaje {
-    var property position = game.at(4, 65)
-    method image() = "marquito.png"
+class MarcoPuntaje {
+    var property position
+    method image() = "marquitonew.png"
 }
+const marco1 = new MarcoPuntaje(position = game.at(4, 65))
+const marco2 = new MarcoPuntaje(position = game.at(105, 65))
 
 class Corazon {
     var property position
@@ -80,12 +83,13 @@ class Corazon {
 }
 
 object tiempo {
-    var property position = game.at (123, 68)
+    var property position = game.at (112, 66)
     var property segundos = 180
 
     method minutos() = segundos.div(60) 
     method segundos() = segundos - (self.minutos() * 60)
     method text () = " " + self.minutos() + ":" + self.segundos()
+    method textColor() = "#000000"
 
     method transcurrir() {
       if(segundos == 0){
@@ -97,8 +101,8 @@ object tiempo {
 }
 
 object final {
-    var property position = game.center()  
-    method text() = "Juego terminado, tus puntos son " + molly.puntos()
+    var property position = game.at (63, 20)  
+    method text() = "Tus puntos son " + molly.puntos()
 }
 
 object menuFinal {
