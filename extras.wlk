@@ -1,7 +1,7 @@
 import wollok.game.*
 import molly.*
 import escenas.*
-import elementos.*
+import elemento.*
 
 class Direccion {
     method nombreDir() 

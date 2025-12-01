@@ -1,6 +1,6 @@
 import wollok.game.*
 import extras.*
-import elementos.*
+import elemento.*
 import escenas.*
 import tablero.*
 

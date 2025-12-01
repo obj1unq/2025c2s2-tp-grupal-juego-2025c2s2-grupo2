@@ -2,7 +2,7 @@ import tablero.*
 import wollok.game.*
 import molly.*
 import extras.*
-import elementos.*
+import elemento.*
 import SpriteAnimation.*
 
 class Escena {
