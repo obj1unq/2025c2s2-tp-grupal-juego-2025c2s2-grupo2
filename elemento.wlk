@@ -3,7 +3,7 @@ import wollok.game.*
 import molly.*
 import extras.*
 
-class Elementos {
+class Elemento {
     const property tipo  // Referencia de la instancia de la clase
 
     var property position = game.at(self.posicionAleatoria(), 56)
@@ -69,7 +69,7 @@ class Explosion {  // Clase explosion porque habrán varias explosiones
     }
 }
 
-class Comida inherits Elementos{
+class Comida inherits Elemento{
     var property estaSiendoLevantada = false
 
     override method position(){
@@ -139,7 +139,7 @@ class Comida inherits Elementos{
 
 }
 
-class Dañino inherits Elementos{ 
+class Dañino inherits Elemento{ 
     override method descender() {
         if (tablero.objetosEn(abajo, position).contains(molly)){  // Si tiene a Molly debajo...
             molly.restarVida()        // Le saca una vida a Molly
@@ -155,7 +155,7 @@ class Dañino inherits Elementos{
 }
 
 class Bomba inherits Dañino{
-    override method destruir(){ // Destruir de Elementos
+    override method destruir(){ // Destruir de Elemento
         const cosaLindante = tablero.cosasEnLindantesDe(self)
         if(not cosaLindante.contains(molly)){ // Si no está Molly en las lindantes...
             cosaLindante.forEach({cosa => cosa.destruir()})  // Destruir lo que este en las lindantes

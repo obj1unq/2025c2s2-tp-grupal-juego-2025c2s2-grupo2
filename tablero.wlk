@@ -1,4 +1,4 @@
-import elementos.*
+import elemento.*
 import escenas.*
 import extras.*
 import molly.*

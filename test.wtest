@@ -1,6 +1,6 @@
 import extras.*
 import wollok.game.*
-import elementos.*
+import elemento.*
 import molly.*
 
 
