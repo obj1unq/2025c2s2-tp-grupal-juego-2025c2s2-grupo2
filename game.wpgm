@@ -1,0 +1,17 @@
+import wollok.game.*
+import escenas.*
+import elemento.*
+import extras.*
+
+program Game {
+	game.title("Bunnytastico")
+	game.width(126) 	
+	game.height(70) 	
+	game.cellSize(10)
+	game.boardGround("fondo.png")		    
+
+	//escFinal.iniciar()
+    escPantallaInicio.iniciar()
+
+    game.start()
+}

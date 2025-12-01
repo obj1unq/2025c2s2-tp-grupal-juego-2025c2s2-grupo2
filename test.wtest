@@ -1,0 +1,95 @@
+import extras.*
+import wollok.game.*
+import elemento.*
+import molly.*
+
+
+describe "Test de comidas" {
+    const manzana1 = new Comida(tipo = manzana, position = game.at(14, 10))
+    const sandia1 = new Comida(tipo = sandia, position = game.at(15, 10))
+    const zanahoria1 = new Comida(tipo = zanahoria, position = game.at(16, 10))
+    
+    test "la comida tiene gravedad" {
+        assert.equals(10, manzana1.position().y())
+        manzana1.descender()
+        assert.that(manzana1.position().y() < 10)
+
+        assert.equals(10, sandia1.position().y())
+        sandia1.descender()
+        assert.that(sandia1.position().y() < 10)
+
+        assert.equals(10, zanahoria1.position().y())
+        zanahoria1.descender()
+        assert.that(zanahoria1.position().y() < 10)
+    }
+
+    test "la comida al explotar suma puntos" {
+        manzana1.explotar()
+        assert.equals(10, molly.puntos())
+        sandia1.explotar()
+        assert.equals(40, molly.puntos())
+        zanahoria1.explotar()
+        assert.equals(60, molly.puntos())
+    }
+
+    test "la comida se puede lanzar y frena en el borde" {
+        manzana1.mover(der)
+        assert.equals(15, manzana1.position().x())
+        manzana1.mover(izq)
+        assert.equals(14, manzana1.position().x())
+        manzana1.position(126)
+        assert.throwsException({ manzana1.mover(der) })
+    }
+}
+
+describe "Test de molly" {
+    test "molly puede perder vidas" {
+        assert.equals(3, molly.vidasRestantes())
+        molly.restarVida()
+        assert.equals(2, molly.vidasRestantes())
+    }
+
+    test "molly se puede mover" {
+        molly.position(game.at(7, 7))
+        molly.moverse(izq)
+        assert.equals(0, molly.position().x())
+    }
+
+    test "molly no puede atravesar el borde" {
+        molly.position(game.at(0,0))
+        assert.throwsException({molly.moverse(izq)})
+    }
+
+    test "molly puede saltar" {
+        molly.position(game.at(0,0))
+        molly.saltar()
+        assert.equals(14 , molly.position().y())
+    }
+}
+
+describe "Test de dañinos"{
+    test "el pincho cae al piso y explota"{
+        spawner.instanciarDañinoAleatorio()
+        assert.notThat(spawner.instancias().isEmpty()) // Se agrega la bomba a la lista de instancias
+        const pincho = spawner.instancias().uniqueElement()
+        pincho.position(game.at(7, 1))
+        assert.equals(1, pincho.position().y())
+        pincho.descender()
+        assert.equals(0, pincho.position().y())
+        pincho.destruir()                          // Al descender deberia destruirse sin ejecutar el metodo (pero se usa un game.schedule, por lo que en el test no funciona)
+        assert.that(spawner.instancias().isEmpty())
+    }
+
+    test "la bomba cae al piso y explota"{
+        spawner.instanciarBomba()
+        assert.notThat(spawner.instancias().isEmpty()) // Se agrega la bomba a la lista de instancias
+        const bombita = spawner.instancias().uniqueElement()
+        bombita.position(game.at(7, 1))
+        assert.equals(1, bombita.position().y())
+        bombita.descender()
+        assert.equals(0, bombita.position().y())
+        bombita.destruir()                          // Al descender deberia destruirse sin ejecutar el metodo (pero se usa un game.schedule, por lo que en el test no funciona)
+        assert.that(spawner.instancias().isEmpty())
+    }
+
+}
