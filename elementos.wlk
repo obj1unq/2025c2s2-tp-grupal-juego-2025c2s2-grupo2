@@ -94,17 +94,16 @@ class Comida inherits Elementos{
         
         const evento = game.tick(50, {
             if (tablero.lindantesDelMismoTipo(self, unaDireccion).isEmpty()){ //delegamos al tablero 
-            tablero.validarMoverse(self, unaDireccion) //delegamos al tablero
-            self.mover(unaDireccion)
+                tablero.validarMoverse(self, unaDireccion) //delegamos al tablero
+                self.mover(unaDireccion)
             } 
             if(!tablero.lindantesDelMismoTipo(self, unaDireccion).isEmpty()){
-                    tablero.lindantesDelMismoTipo(self, unaDireccion).first().explotar() //delegamos al tablero
+                tablero.lindantesDelMismoTipo(self, unaDireccion).first().explotar() //delegamos al tablero
+                evento.stop()
+            }
+            else if(!tablero.objetoLindanteEnCelda(unaDireccion, position).isEmpty()){
                     evento.stop()
             }
-            else 
-                if(!tablero.objetoLindanteEnCelda(unaDireccion, position).isEmpty()){
-                    evento.stop()
-                }
         }
         , false)
 

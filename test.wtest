@@ -1,37 +1,43 @@
 import extras.*
-import elementos.*
 import wollok.game.*
+import elementos.*
+import molly.*
 
 
-describe "Reaccion en cadena explisiva de las comidas" {
+describe "Test de comidas" {
+    const manzana1 = new Comida(tipo = manzana, position = game.at(14, 10))
+    const sandia1 = new Comida(tipo = sandia, position = game.at(15, 10))
+    const zanahoria1 = new Comida(tipo = zanahoria, position = game.at(16, 10))
     
-    //Referencia para poder testear la explosion en cadena
-    const primeraManzana = new Comida(tipo = manzana,pos = game.at(7, 7))
+    test "la comida tiene gravedad" {
+        assert.equals(10, manzana1.position().y())
+        manzana1.descender()
+        assert.that(manzana1.position().y() < 10)
 
-    method initialize() {
-        game.addVisual(primeraManzana)
-        game.addVisual(new Sandia(pos = game.at(7, 0)))     //Abj
-        game.addVisual(new Manzana(pos = game.at(7, 14)))   //Arr Mismo Tipo
-        game.addVisual(new Manzana(pos = game.at(7, 21)))   //Arr Mismo Tipo
-        game.addVisual(new Manzana(pos = game.at(7, 28)))   //Arr Mismo Tipo
-        game.addVisual(new Zanahoria(pos = game.at(14, 7))) //Der
-        game.addVisual(new Manzana(pos = game.at(0, 7)))    //Izq Mismo Tipo
+        assert.equals(10, sandia1.position().y())
+        sandia1.descender()
+        assert.that(sandia1.position().y() < 10)
 
-    }
-  
-    test "Lindantes a la manzana" {
-        assert.that(not primeraManzana.lindantes().isEmpty())
+        assert.equals(10, zanahoria1.position().y())
+        zanahoria1.descender()
+        assert.that(zanahoria1.position().y() < 10)
     }
 
-    test "Reaccion en cadena de destruccion" {
+    test "la comida al explotar suma puntos" {
+        manzana1.explotar()
+        assert.equals(10, molly.puntos())
+        sandia1.explotar()
+        assert.equals(40, molly.puntos())
+        zanahoria1.explotar()
+        assert.equals(60, molly.puntos())
+    }
 
-        primeraManzana.explotar()
-        assert.that(not game.getObjectsIn(game.at(7,0)).isEmpty())
-        assert.that(game.getObjectsIn(game.at(7,14)).isEmpty()) //Fila Hor1
-        assert.that(game.getObjectsIn(game.at(7,21)).isEmpty()) //Fila Hor2
-        assert.that(game.getObjectsIn(game.at(7,28)).isEmpty()) //Fila Hor3
-        assert.that(not game.getObjectsIn(game.at(14,7)).isEmpty())
-        assert.that(game.getObjectsIn(game.at(0,7)).isEmpty())
-
+    test "la comida se puede lanzar y frena en el borde" {
+        manzana1.mover(der)
+        assert.equals(15, manzana1.position().x())
+        manzana1.mover(izq)
+        assert.equals(14, manzana1.position().x())
+        manzana1.position(126)
+        assert.throwsException({ manzana1.mover(der) })
     }
 }
