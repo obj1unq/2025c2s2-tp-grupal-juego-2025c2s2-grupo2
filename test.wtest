@@ -41,3 +41,30 @@ describe "Test de comidas" {
         assert.throwsException({ manzana1.mover(der) })
     }
 }
+
+describe "Test de dañinos"{
+    test "el pincho cae al piso y explota"{
+        spawner.instanciarDañinoAleatorio()
+        assert.notThat(spawner.instancias().isEmpty()) // Se agrega la bomba a la lista de instancias
+        const pincho = spawner.instancias().uniqueElement()
+        pincho.position(game.at(7, 1))
+        assert.equals(1, pincho.position().y())
+        pincho.descender()
+        assert.equals(0, pincho.position().y())
+        pincho.destruir()                          // Al descender deberia destruirse sin ejecutar el metodo (pero se usa un game.schedule, por lo que en el test no funciona)
+        assert.that(spawner.instancias().isEmpty())
+    }
+
+    test "la bomba cae al piso y explota"{
+        spawner.instanciarBomba()
+        assert.notThat(spawner.instancias().isEmpty()) // Se agrega la bomba a la lista de instancias
+        const bombita = spawner.instancias().uniqueElement()
+        bombita.position(game.at(7, 1))
+        assert.equals(1, bombita.position().y())
+        bombita.descender()
+        assert.equals(0, bombita.position().y())
+        bombita.destruir()                          // Al descender deberia destruirse sin ejecutar el metodo (pero se usa un game.schedule, por lo que en el test no funciona)
+        assert.that(spawner.instancias().isEmpty())
+    }
+
+}
