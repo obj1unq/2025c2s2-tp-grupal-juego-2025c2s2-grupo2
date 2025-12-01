@@ -41,3 +41,28 @@ describe "Test de comidas" {
         assert.throwsException({ manzana1.mover(der) })
     }
 }
+
+describe "Test de molly" {
+    test "molly puede perder vidas" {
+        assert.equals(3, molly.vidasRestantes())
+        molly.restarVida()
+        assert.equals(2, molly.vidasRestantes())
+    }
+
+    test "molly se puede mover" {
+        molly.position(game.at(7, 7))
+        molly.moverse(izq)
+        assert.equals(0, molly.position().x())
+    }
+
+    test "molly no puede atravesar el borde" {
+        molly.position(game.at(0,0))
+        assert.throwsException({molly.moverse(izq)})
+    }
+
+    test "molly puede saltar" {
+        molly.position(game.at(0,0))
+        molly.saltar()
+        assert.equals(14 , molly.position().y())
+    }
+}
