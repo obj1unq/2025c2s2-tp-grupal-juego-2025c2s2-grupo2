@@ -9,6 +9,7 @@ object tablero {
     method lindantesDelMismoTipo(unaCosa, unaDireccion) { // Devuelve los objetos lindante a la direccion dada del mismo tipo que se le pide al parametro
         const posicionCosa = unaCosa.position()
         const filtrado = game.getObjectsIn(unaDireccion.siguiente(posicionCosa))
+        filtrado.remove(molly)
         return filtrado.filter({obj => obj.tipo() == unaCosa.tipo()})
     }
 

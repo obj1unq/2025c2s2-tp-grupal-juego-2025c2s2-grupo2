@@ -123,9 +123,9 @@ const escColisiones = new Escena (
         {keyboard.up().onPressDo({molly.saltar()})},
         {keyboard.left().onPressDo({molly.moverse(izq)})},
         {keyboard.right().onPressDo({molly.moverse(der)})},
-        {keyboard.down().onPressDo({molly.soltarCaja()})},
-        {keyboard.z().onPressDo({molly.sostenerCaja()})},
-        {keyboard.space().onPressDo({molly.lanzarCaja()})}
+        {keyboard.down().onPressDo({molly.soltarComida()})},
+        {keyboard.z().onPressDo({molly.soltarComida()})},
+        {keyboard.space().onPressDo({molly.soltarComida()})}
         
     ]
 )
@@ -162,8 +162,8 @@ const escenaBombaEjemplo = new Escena(
         {keyboard.up().onPressDo({molly.saltar()})},
         {keyboard.left().onPressDo({molly.moverse(izq)})},
         {keyboard.right().onPressDo({molly.moverse(der)})},
-        {keyboard.down().onPressDo({molly.soltarCaja()})},
-        {keyboard.z().onPressDo({molly.sostenerCaja()})},
+        {keyboard.down().onPressDo({molly.soltarComida()})},
+        {keyboard.z().onPressDo({molly.soltarComida()})},
         {keyboard.space().onPressDo({unaBomba.destruir()})}
     ]    
 )
@@ -179,7 +179,7 @@ const escenaMollyDispara = new Escena(
         {keyboard.up().onPressDo({molly.saltar()})},
         {keyboard.left().onPressDo({molly.moverse(izq)})},
         {keyboard.right().onPressDo({molly.moverse(der)})},
-        {keyboard.down().onPressDo({molly.soltarCaja()})},
+        {keyboard.down().onPressDo({molly.soltarComida()})},
         {keyboard.z().onPressDo({molly.interactuar()})}
     ]    
 )
